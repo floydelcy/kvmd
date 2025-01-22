@@ -4,6 +4,7 @@
 #    KVMD-OLED - A small OLED daemon for PiKVM.                              #
 #                                                                            #
 #    Copyright (C) 2018-2024  Maxim Devaev <mdevaev@gmail.com>               #
+#    Copyright (C) 2025  floyde.lcy <floyde.lcy@gmail.com>                   #
 #                                                                            #
 #    This program is free software: you can redistribute it and/or modify    #
 #    it under the terms of the GNU General Public License as published by    #
@@ -49,7 +50,7 @@ def _detect_geometry() -> dict:
     has_usb = bool(list(usb.core.find(find_all=True)))
     if is_cm4 and has_usb:
         return {"height": 64, "rotate": 2}
-    return {"height": 32, "rotate": 0}
+    return {"height": 64, "rotate": 0}
 
 
 def _get_data_path(subdir: str, name: str) -> str:
@@ -69,8 +70,8 @@ def main() -> None:  # pylint: disable=too-many-locals,too-many-branches,too-man
     parser = luma_cmdline.create_parser(description="Display FQDN and IP on the OLED")
     parser.set_defaults(**_detect_geometry())
 
-    parser.add_argument("--font", default="@ProggySquare.ttf", type=(lambda arg: _get_data_path("fonts", arg)), help="Font path")
-    parser.add_argument("--font-size", default=16, type=int, help="Font size")
+    parser.add_argument("--font", default="@Alibaba-PuHuiTi-Light.ttf", type=(lambda arg: _get_data_path("fonts", arg)), help="Font path")
+    parser.add_argument("--font-size", default=13, type=int, help="Font size")
     parser.add_argument("--font-spacing", default=2, type=int, help="Font line spacing")
     parser.add_argument("--offset-x", default=0, type=int, help="Horizontal offset")
     parser.add_argument("--offset-y", default=0, type=int, help="Vertical offset")
@@ -81,12 +82,18 @@ def main() -> None:  # pylint: disable=too-many-locals,too-many-branches,too-man
     parser.add_argument("--clear-on-exit", action="store_true", help="Clear display on exit")
     parser.add_argument("--contrast", default=64, type=int, help="Set OLED contrast, values from 0 to 255")
     parser.add_argument("--fahrenheit", action="store_true", help="Display temperature in Fahrenheit instead of Celsius")
+    parser.add_argument("--mirrored", action="store_true", help="Display mirrored")
     options = parser.parse_args(sys.argv[1:])
     if options.config:
         config = luma_cmdline.load_config(options.config)
         options = parser.parse_args(config + sys.argv[1:])
 
     device = luma_cmdline.create_device(options)
+
+    if options.mirrored:
+        device.command(0x00)
+        device.command(0xA0)
+
     device.cleanup = (lambda _: None)
     screen = Screen(
         device=device,
@@ -129,9 +136,9 @@ def main() -> None:  # pylint: disable=too-many-locals,too-many-branches,too-man
                 if signum in (signal.SIGINT, signal.SIGTERM):
                     stop_reason = ""
                 elif signum == signal.SIGUSR1:
-                    stop_reason = "Rebooting...\nPlease wait"
+                    stop_reason = "正在重启...\n请稍后"
                 elif signum == signal.SIGUSR2:
-                    stop_reason = "Halted"
+                    stop_reason = "已关机"
 
             for signum in [signal.SIGTERM, signal.SIGINT, signal.SIGUSR1, signal.SIGUSR2]:
                 signal.signal(signum, sigusr_handler)
@@ -158,7 +165,9 @@ def main() -> None:  # pylint: disable=too-many-locals,too-many-branches,too-man
 
             if device.height >= 64:
                 while stop_reason is None:
-                    text = "{fqdn}\n{ip}\niface: {iface}\ntemp: {temp}\ncpu: {cpu} mem: {mem}\n(__hb__) {uptime}"
+                    # text = "{fqdn}\n{ip}\niface: {iface}\ntemp: {temp}\ncpu: {cpu} mem: {mem}\n(__hb__) {uptime}"
+                    text = "{iface}:{ip}\nCPU: {cpu}  |  MEM: {mem}"
+                    text +="\n状态: {state} | {temp}\n(__hb__) {uptime}"
                     draw(sensors.render(text))
             else:
                 summary = True
@@ -174,6 +183,10 @@ def main() -> None:  # pylint: disable=too-many-locals,too-many-branches,too-man
                 if len(stop_reason) > 0:
                     options.clear_on_exit = False
                     screen.draw_text(stop_reason)
+                    # display off
+                    device.command(0x8D)
+                    device.command(0x10)
+                    device.command(0xAE)
                 while len(stop_reason) > 0:
                     time.sleep(0.1)
 

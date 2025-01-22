@@ -4,6 +4,7 @@
 #    KVMD-OLED - A small OLED daemon for PiKVM.                              #
 #                                                                            #
 #    Copyright (C) 2018-2024  Maxim Devaev <mdevaev@gmail.com>               #
+#    Copyright (C) 2025  floyde.lcy <floyde.lcy@gmail.com>                   #
 #                                                                            #
 #    This program is free software: you can redistribute it and/or modify    #
 #    it under the terms of the GNU General Public License as published by    #
@@ -28,6 +29,7 @@ import time
 
 import netifaces
 import psutil
+import subprocess
 
 
 # =====
@@ -42,6 +44,7 @@ class Sensors:
             "temp":   self.__get_temp,
             "cpu":    self.__get_cpu,
             "mem":    self.__get_mem,
+            "state":  self.__get_kvmd_status,
         }
 
     def render(self, text: str) -> str:
@@ -124,3 +127,13 @@ class Sensors:
 
     def __get_mem(self) -> str:
         return f"{int(psutil.virtual_memory().percent)}%"
+
+    def __get_kvmd_status(self) -> str:
+        try:
+            result = subprocess.run(['systemctl', 'is-active', 'kvmd'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            if 'active' in result.stdout:
+                return "正常"
+            else:
+                return "故障"
+        except Exception:
+            return "Error Checking Status"
