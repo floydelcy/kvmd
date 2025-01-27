@@ -1,7 +1,7 @@
-mixin about_tab(name, title, checked=false)
+mixin about_tab(name, title, i18nid, checked=false)
 	- let button_id = `about-tab-${name}-button`
 	input(checked=checked type="radio" name="about-tab-button", id=button_id)
-	label(for=button_id) #{title}
+	label(for=button_id i18n=i18nid) #{title}
 	div(class="tab")
 		div(id=`about-${name}` class="code")
 			if block
@@ -11,24 +11,24 @@ mixin about_tab(name, title, checked=false)
 
 div(id="about-window" class="window")
 	div(class="window-header")
-		div(class="window-grab") About
+		div(class="window-grab" i18n="kvm_about_1") About
 		button(class="window-button-close") #[b &times;]
 
 	div(id="about")
 		table
 			tr
 				td(class="logo")
-					a(href="https://pikvm.org" target="_blank")
+					a(href="https://opikvm.gitlab.io/opikvm/" target="_blank")
 						img(class="svg-color" src=`${svg_dir}/logo.svg` alt="PiKVM" height="40")
 				td
 					table
-						tr #[td(colspan="2" class="title") The Open Source KVM over IP]
+						tr #[td(colspan="2" class="title" i18n="index_title") The Open Source KVM over IP]
 						tr
-							td(colspan="2" class="copyright")
+							td(colspan="2" class="copyright" i18n="copyright")
 								| Copyright &copy; 2018-2024 #[a(target="_blank" href="mailto:mdevaev@gmail.com") Maxim Devaev]
 		br
 		div(class="tabs-box")
-			+about_tab("meta", "Meta", true)
+			+about_tab("meta", "Meta", "meta", true)
 				div
 					span(class="code-comment")
 						| // You can get this JSON using handle #[a(target="_blank" href="/api/info?fields=meta") /api/info?fields=meta]#[br]
@@ -38,11 +38,11 @@ div(id="about-window" class="window")
 					pre(id="kvmd-meta-json")
 						| No data
 
-			+about_tab("hardware", "Hardware")
-			+about_tab("version", "Version")
+			+about_tab("hardware", "Hardware", "hardware")
+			+about_tab("version", "Version", "version")
 
-			+about_tab("thanks", "Thanks")
-				span(class="code-comment")
+			+about_tab("thanks", "Thanks", "thanks")
+				span(class="code-comment" i18n="kvm_about_2")
 					| // These kind people donated money to the PiKVM project#[br]
 					| // and supported the work on it. We are very grateful#[br]
 					| // for their help, and memorializing their names#[br]
@@ -691,8 +691,8 @@ div(id="about-window" class="window")
 					li Zsombor Vari
 		br
 		p(class="text credits")
-			a(target="_blank" href="https://pikvm.org") PiKVM Project
+			a(target="_blank" href="https://pikvm.org" i18n="index_text_10") OPiKVM Project
 			| &nbsp; | &nbsp;
-			a(target="_blank" href="https://docs.pikvm.org") Documentation
+			a(target="_blank" href="https://github.com/floydelcy/kvmd" i18n="index_text_11") OPiKVM Project
 			| &nbsp; | &nbsp;
-			a(target="_blank" href="https://pikvm.org/support") Support
+			a(target="_blank" href="https://opikvm.gitlab.io/opikvm" i18n="index_text_13") OPiKVM Documentation

@@ -25,7 +25,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>PiKVM Login</title>
+    <title>OPiKVM Login</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/share/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/share/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/share/favicon-16x16.png">
@@ -39,6 +39,9 @@
     <link rel="stylesheet" href="/share/css/modal.css">
     <link rel="stylesheet" href="/share/css/login/login.css">
     <link rel="stylesheet" href="/share/css/user.css">
+    <script src="/share/js/i18n/jquery-3.7.1.min.js"></script>
+    <script src="/share/js/i18n/jquery.i18n.min.js"></script>
+    <script src="/share/js/i18n/i18n.js"></script>
     <script type="module">import {main} from "/share/js/login/main.js";
       main();
     </script>
@@ -49,21 +52,21 @@
         <div id="login">
           <table>
             <tr>
-              <td>Username:&nbsp;</td>
+              <td i18n="username">Username:&nbsp;</td>
               <td>
                 <input type="text" id="user-input" autocapitalize="off">
               </td>
             </tr>
             <tr>
-              <td>Password:&nbsp;</td>
+              <td i18n="password">Password:&nbsp;</td>
               <td>
                 <input type="password" id="passwd-input" autocapitalize="off">
               </td>
             </tr>
             <tr>
-              <td>2FA code:&nbsp;</td>
+              <td i18n="2fa_code">2FA code:&nbsp;</td>
               <td>
-                <input type="text" id="code-input" placeholder="if enabled">
+                <input type="text" id="code-input" placeholder="if enabled" i18n="if_enabled">
               </td>
             </tr>
             <tr>
@@ -72,9 +75,18 @@
               </td>
             </tr>
             <tr>
+              <td i18n="select_language">Select language:&nbsp;</td>
+              <td>
+                <select id="selectLanguage">
+                  <option id="zh" selected="selected" i18n="chinese">Simplified Chinese</option>
+                  <option id="en" i18n="english">English</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
               <td></td>
               <td>
-                <button class="key" id="login-button" style="width:100%">Login</button>
+                <button class="key" id="login-button" i18n="login">Login</button>
               </td>
             </tr>
           </table>
@@ -82,7 +94,7 @@
       </div>
     </form>
     <ul class="footer">
-      <li class="left">This site is actively using JavaScript.<br>
+      <li class="left" i18n="footer-left">This site is actively using JavaScript.<br>
         It doesn't contain ads, but is blocked by some ad filters.<br>
         Please turn it off to continue and reload the page.
       </li>
