@@ -60,6 +60,7 @@
     "kvm_system_25":"Reset HID",
     "v3-usb-breaker":"Connect main USB to Server",
     "hid-keyboard-bad-link-switch":"Bad link mode (release keys immediately):",
+    "kvm_system_fb":"FileBrowser",
 
     "kvm_kb_1":"Virtual Keyboard",
 

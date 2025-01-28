@@ -49,6 +49,7 @@ export function main() {
 		initWindowManager();
 
 		tools.el.setOnClick($("open-log-button"), () => window.open("/api/log?seek=3600&follow=1", "_blank"));
+		tools.el.setOnClick($("open-fb-button"), () => window.open("/filebrowser", "_blank"));
 
 		tools.storage.bindSimpleSwitch(
 			$("page-full-tab-stream-switch"),

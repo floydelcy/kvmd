@@ -60,6 +60,7 @@
     "kvm_system_25":"重置 HID",
     "v3-usb-breaker":"OTG连接至目标主机",
     "hid-keyboard-bad-link-switch":"Bad link模式 (立即释放按键):",
+    "kvm_system_fb":"文件管理器",
 
     "kvm_kb_1":"虚拟键盘",
 

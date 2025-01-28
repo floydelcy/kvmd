@@ -1,0 +1,5 @@
+name: FileBrowser
+description: FileBrowser Webui
+path: filebrowser
+daemon: filebrowser
+place: -1
