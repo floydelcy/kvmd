@@ -47,7 +47,7 @@ export function MediaStreamer(__setActive, __setInactive, __setInfo) {
 
 	/************************************************************************/
 
-	self.getName = () => "HTTP H.264";
+	self.getName = () => "Direct H.264";
 	self.getMode = () => "media";
 
 	self.getResolution = function() {
