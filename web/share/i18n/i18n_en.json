@@ -145,7 +145,7 @@
     "stream-message-no-h264":"H.264 is not supported by this browser",
     "msd-message-offline":"Mass Storage Drive is offline",
     "msd-message-image-broken":"Current image is broken!",
-    "msd-message-too-big-for-cdrom":"Current image is too big for CD-ROM!",
+    "msd-message-too-big-for-dvd":"Current image is too big for DVD!",
     "msd-message-out-of-storage":"Current image is out of storage",
     "msd-message-rw-enabled":"Read-write mode is enabled",
     "msd-message-downloads":"The image is being downloaded from OPiKVM",

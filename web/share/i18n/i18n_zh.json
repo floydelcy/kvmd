@@ -145,7 +145,7 @@
     "stream-message-no-h264":"当前浏览器不支持 H.264",
     "msd-message-offline":"虚拟存储驱动器已离线",
     "msd-message-image-broken":"当前镜像已损坏!",
-    "msd-message-too-big-for-cdrom":"当前 CD-ROM 格式镜像大小超出限制!",
+    "msd-message-too-big-for-dvd":"当前 CD/DVD 格式镜像大小超出限制!",
     "msd-message-out-of-storage":"当前镜像大小超出存储空间",
     "msd-message-rw-enabled":"读写模式已启用",
     "msd-message-downloads":"正在从 OPiKVM 下载镜像",
