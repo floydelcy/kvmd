@@ -1,48 +1,50 @@
-mixin about_tab(name, title, i18nid, checked=false)
+mixin about_tab(name, title, checked=false)
 	- let button_id = `about-tab-${name}-button`
 	input(checked=checked type="radio" name="about-tab-button", id=button_id)
-	label(for=button_id i18n=i18nid) #{title}
-	div(class="tab")
-		div(id=`about-${name}` class="code")
+	label(for=button_id i18n=name) #{title}
+	.tab
+		.code(id=`about-${name}`)
 			if block
 				block
 			else
-				span(class="code-comment") No data
+				span.code-comment No data
 
-div(id="about-window" class="window")
-	div(class="window-header")
-		div(class="window-grab" i18n="kvm_about_1") About
-		button(class="window-button-close") #[b &times;]
 
-	div(id="about")
+.window#about-window
+	.window-header
+		.window-grab(i18n="kvm_about_1") About
+		button.window-button-close #[b &times;]
+
+	#about
 		table
 			tr
-				td(class="logo")
-					a(href="https://opikvm.gitlab.io/opikvm/" target="_blank")
-						img(class="svg-color" src=`${svg_dir}/logo.svg` alt="PiKVM" height="40")
+				td.logo
+					a(href="https://opikvm.github.io/opikvm/" target="_blank")
+						img.svg-color(src=`${svg_dir}/logo.svg` alt="PiKVM" height="40")
 				td
 					table
-						tr #[td(colspan="2" class="title" i18n="index_title") The Open Source KVM over IP]
 						tr
-							td(colspan="2" class="copyright" i18n="copyright")
+							td.title(colspan="2" i18n="index_title")
+								| The Open Source KVM over IP
+						tr
+							td.copyright(colspan="2" i18n="copyright")
 								| Copyright &copy; 2018-2024 #[a(target="_blank" href="mailto:mdevaev@gmail.com") Maxim Devaev]
 		br
-		div(class="tabs-box")
-			+about_tab("meta", "Meta", "meta", true)
+		.tabs-box
+			+about_tab("meta", "Meta", true)
 				div
-					span(class="code-comment")
+					span.code-comment
 						| // You can get this JSON using handle #[a(target="_blank" href="/api/info?fields=meta") /api/info?fields=meta]#[br]
 						| // In the standard configuration this data#[br]
 						| // is specified in the file /etc/kvmd/meta.yaml
 					br
-					pre(id="kvmd-meta-json")
-						| No data
+					pre#kvmd-meta-json No data
 
-			+about_tab("hardware", "Hardware", "hardware")
-			+about_tab("version", "Version", "version")
+			+about_tab("hardware", "Hardware")
+			+about_tab("version", "Version")
 
-			+about_tab("thanks", "Thanks", "thanks")
-				span(class="code-comment" i18n="kvm_about_2")
+			+about_tab("thanks", "Thanks")
+				span.code-comment(i18n="kvm_about_2")
 					| // These kind people donated money to the PiKVM project#[br]
 					| // and supported the work on it. We are very grateful#[br]
 					| // for their help, and memorializing their names#[br]
@@ -690,9 +692,9 @@ div(id="about-window" class="window")
 					li Zoltan Magyari
 					li Zsombor Vari
 		br
-		p(class="text credits")
+		p.text.credits
 			a(target="_blank" href="https://pikvm.org" i18n="index_text_10") OPiKVM Project
 			| &nbsp; | &nbsp;
 			a(target="_blank" href="https://github.com/floydelcy/kvmd" i18n="index_text_11") OPiKVM Project
 			| &nbsp; | &nbsp;
-			a(target="_blank" href="https://opikvm.gitlab.io/opikvm" i18n="index_text_13") OPiKVM Documentation
+			a(target="_blank" href="https://opikvm.github.io/opikvm" i18n="index_text_13") OPiKVM Documentation

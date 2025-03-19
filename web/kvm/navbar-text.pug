@@ -1,45 +1,43 @@
-li(id="text-dropdown" class="right")
-	a(class="menu-button" href="#")
+li.right#text-dropdown
+	a.menu-button(href="#")
 		+navbar_led("stream-ocr-led", "led-gear", "feature-disabled")
 		span(i18n="kvm_text_text1") Text
-	div(id="text-menu" class="menu")
-		div(class="text")
+
+	.menu#text-menu
+		.text
 			b(i18n="kvm_text_text2") Paste text as keypress sequence#[br]
 			sub(i18n="kvm_text_text3") Please note that PiKVM cannot switch the keyboard layout
 		hr
-		div(class="text" style="margin-right: 20px")
-			textarea(id="hid-pak-text" data-focus placeholder="Enter your text here")
-		table(class="kv")
+		.text(style="margin-right: 20px")
+			textarea#hid-pak-text(data-focus placeholder="Enter your text here")
+		table.kv
 			tr
-				td
-					button(disabled data-force-hide-menu id="hid-pak-button" i18n="kvm_text_text4") &bull; Paste
+				td #[button#hid-pak-button(disabled data-force-hide-menu i18n="kvm_text_text4") &bull; Paste]
 				td(i18n="kvm_text_text5") using host keymap
-				td
-					select(id="hid-pak-keymap-selector")
-		table(class="kv")
+				td #[select#hid-pak-keymap-selector]
+		table.kv
 			tr
-				+menu_switch_notable("hid-pak-slow-switch", "Slow typing", true, false, "hid-pak-slow-switch")
+				+menu_switch_td2("hid-pak-slow-switch", true, false) Slow typing:
 			tr
-				+menu_switch_notable("hid-pak-secure-switch", "Hide input text", true, false,"hid-pak-secure-switch")
+				+menu_switch_td2("hid-pak-secure-switch", true, false) Hide input text:
 			tr
-				+menu_switch_notable("hid-pak-ask-switch", "Ask paste confirmation", true, true,"hid-pak-ask-switch")
-		div(id="stream-ocr" class="feature-disabled")
+				+menu_switch_td2("hid-pak-ask-switch", true, true) Ask paste confirmation:
+
+		.feature-disabled#stream-ocr
 			hr
 			br
 			hr
-			div(class="text")
+			.text
 				b(i18n="kvm_text_text6") Text recognition <sup><i>&beta;</i></sup>#[br]
 				sub(i18n="kvm_text_text7") #[a(target="_blank" href="https://docs.pikvm.org/ocr") OCR] works locally on PiKVM
 			hr
-			table(class="kv")
+			table.kv
 				tr
-					td
-						button(data-force-hide-menu id="stream-ocr-button" i18n="kvm_text_text8") &bull; Select area
+					td #[button#stream-ocr-button(data-force-hide-menu i18n="kvm_text_text8") &bull; Select area]
 					td(i18n="kvm_text_text9") for
-					td
-						select(id="stream-ocr-lang-selector")
+					td #[select#stream-ocr-lang-selector]
 					td(i18n="kvm_text_text10") text recognition
-			table(class="kv")
+			table.kv
 				tr
 					td(colspan="4" i18n="kvm_text_text11") &bull; Press #[b Enter] to recognize and copy text to clipboard
 				tr
