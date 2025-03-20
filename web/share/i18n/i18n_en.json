@@ -45,6 +45,7 @@
     "stream-mode-radio":"Video mode",
     "stream-orient-radio":"Orientation:",
     "stream-audio-volume-slider":"Audio volume:",
+    "stream-mic-switch":"Microphone:",
     "kvm_system_14":"&bull; Show stream",
     "kvm_system_15":"&bull; Screenshot",
     "kvm_system_16":"Reset stream",
@@ -150,6 +151,5 @@
     "Read-write mode is enabled":"Read-write mode is enabled",
     "The image is being downloaded from PiKVM":"The image is being downloaded from OPiKVM",
     "Another user uploads an image":"Another user uploads an image",
-    "page-full-tab-stream-switch":"Expand for the entire tab by default",
-    "stream-mic-switch":"Microphone"
+    "page-full-tab-stream-switch":"Expand for the entire tab by default"
 }
