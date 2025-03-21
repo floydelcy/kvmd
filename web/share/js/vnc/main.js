@@ -31,7 +31,7 @@ export function main() {
 }
 
 function __loadKvmdInfo() {
-	tools.httpGet("/api/info", null, function(http) {
+	tools.httpGet("api/info", null, function(http) {
 		if (http.status === 200) {
 			let vnc_port = JSON.parse(http.responseText).result.extras.vnc.port;
 			$("vnc-text").innerHTML = `
@@ -39,7 +39,7 @@ function __loadKvmdInfo() {
 				$</span> vncviewer ${window.location.hostname}::${vnc_port}
 			`;
 		} else if (http.status === 401 || http.status === 403) {
-			document.location.href = "/login";
+			tools.currentOpen("login");
 		} else {
 			setTimeout(__loadKvmdInfo, 1000);
 		}
