@@ -25,6 +25,11 @@ block body
 			#login
 				table
 					tr
+						td #[img.svg-color#login-logo(src=`${svg_dir}/logo.svg` alt="&pi;-kvm")]
+						td
+					tr
+						td(colspan=2) #[hr]
+					tr
 						td(i18n="username") Username:&nbsp;
 						td #[input#user-input(type="text" autocapitalize="off")]
 					tr
@@ -34,8 +39,7 @@ block body
 						td(i18n="2fa_code") 2FA code:&nbsp;
 						td #[input#code-input(type="text" placeholder="if enabled" i18n="if_enabled")]
 					tr
-						td(colspan=2)
-							hr
+						td(colspan=2) #[hr]
 					tr
 						td Remember me:&nbsp;
 						td
@@ -45,8 +49,7 @@ block body
 								{"title": "Forever", "value": "0", "checked": true},
 							])
 					tr
-						td(colspan=2)
-							hr
+						td(colspan=2) #[hr]
 					tr
 						td(i18n="select_language") Select language:&nbsp;
 						td
@@ -55,7 +58,7 @@ block body
 								option(id='en' i18n="english") English
 					tr
 						td
-						td #[button.key#login-button(style="width:100%" i18n="login") Login]
+						td #[button.key#login-button(i18n="login") Login]
 
 	ul.footer
 		li.left(i18n="footer-left")
