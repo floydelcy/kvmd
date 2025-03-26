@@ -58,7 +58,7 @@
     "hid-mouse-scroll-slider":"滚动速率:",
     "kvm_system_24":"显示虚拟键盘",
     "kvm_system_25":"重置 HID",
-    "v3-usb-breaker":"OTG连接至目标主机",
+    "__v3_usb_breaker__":"OTG连接至目标主机",
     "hid-keyboard-bad-link-switch":"Bad link模式 (立即释放按键):",
     "kvm_system_fb":"文件管理器",
 

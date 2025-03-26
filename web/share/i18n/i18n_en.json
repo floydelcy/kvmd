@@ -58,7 +58,7 @@
     "hid-mouse-scroll-slider":"Scroll rate:",
     "kvm_system_24":"&bull; Show keyboard",
     "kvm_system_25":"Reset HID",
-    "v3-usb-breaker":"Connect main USB to Server",
+    "__v3_usb_breaker__":"Connect main USB to Server",
     "hid-keyboard-bad-link-switch":"Bad link mode (release keys immediately):",
     "kvm_system_fb":"FileBrowser",
 

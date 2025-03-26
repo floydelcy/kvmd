@@ -117,9 +117,13 @@ class _GadgetConfig:
         func = "uac2.usb0"
         func_path = self.__create_function(func)
         _write(join(func_path, "c_chmask"), 0)
+        _write(join(func_path, "c_mute_present"), 0)
+        _write(join(func_path, "c_volume_present"), 0)
         _write(join(func_path, "p_chmask"), 0b11)
         _write(join(func_path, "p_srate"), 48000)
         _write(join(func_path, "p_ssize"), 2)
+        _write(join(func_path, "p_mute_present"), 0)
+        _write(join(func_path, "p_volume_present"), 0)
         if start:
             self.__start_function(func, eps)
         self.__create_meta(func, "Microphone", eps)
