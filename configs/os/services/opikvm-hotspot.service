@@ -1,0 +1,16 @@
+[Unit]
+Description=OPiKVM HotSpot Service
+After=network-online.target
+Requires=network-online.target
+
+[Service]
+ExecStartPre=/bin/systemctl stop dnsmasq.service
+ExecStart=/usr/local/bin/create_ap --no-virt -m nat wlan0 eth0 OPiKVM-AP orangepi -g 10.0.12.1
+ExecStopPost=/bin/systemctl start dnsmasq.service
+
+Restart=always
+RestartSec=3
+User=root
+
+[Install]
+WantedBy=multi-user.target
