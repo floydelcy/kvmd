@@ -56,7 +56,17 @@ class Sensors:
     # =====
 
     def __get_iface(self) -> str:
-        return self.__get_netconf(round(time.monotonic() / 0.3))[0]
+        raw_iface = self.__get_netconf(round(time.monotonic() / 0.3))[0]
+        return self.__truncate_iface_name(raw_iface, max_length=5)
+
+    def __truncate_iface_name(self, name: str, max_length: int) -> str:
+        if len(name) <= max_length:
+            return name
+        truncated = name[:max_length]
+        if name[max_length].isdigit():
+            return f"{truncated}{name[max_length]}"
+        else:
+            return f"{truncated}"
 
     def __get_ip(self) -> str:
         return self.__get_netconf(round(time.monotonic() / 0.3))[1]
