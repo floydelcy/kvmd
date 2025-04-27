@@ -4,6 +4,10 @@
     "2fa_code": "2FA code:&nbsp;",
     "if_enabled": "if enabled",
     "login": "Login",
+    "RememberMe": "Remember me",
+    "expire-radio-3600": "1h",
+    "expire-radio-43200": "12h",
+    "expire-radio-0": "Forever",
     "select_language": "Select language:&nbsp;",
     "chinese": "Simplified Chinese",
     "english": "English",
@@ -15,7 +19,7 @@
     "index_text_2": "To override this limitation you can use Google Chrome in application mode.",
     "serve_name": "Server:",
     "index_text_10":"PiKVM Project",
-    "index_text_11":"PiKVM Documentation",
+    "index_text_11":"OPiKVM Project",
     "index_text_12":"Support",
     "index_text_13":"OPiKVM Documentation",
     "index_title":"The Open Source KVM over IP",
@@ -29,7 +33,7 @@
     "ipmi_text3":"<b>NEVER</b> use the same passwords for KVMD and IPMI users. And even better not to use IPMI. Instead, you can directly use KVMD API via curl. Here some examples:",
 
     "kvm_about_1":"About",
-    "kvm_about_2":"// These <a href=\"https://github.com/pikvm/pikvm?tab=readme-ov-file#special-thanks\">kind people</a> donated money to the PiKVM project and supported the work on it. <br>// If you also want to support this project, you can donate on <a target=\"_blank\" href=\"https://www.patreon.com/pikvm\"> Patreon</a> or <a target=\"_blank\" href=\"https://paypal.me/pikvm\"> Paypal</a>.<br><br>// These <a href=\"https://OPiKVM.mofeng.run/thanks/#_2\">kind people</a> donated money to the OPiKVM project and supported the work on it. <br>// If you also want to support this project, you can donate on <a target=\"_blank\" href=\"https://afdian.com/a/silentwind\"> afdian </a>.",
+    "kvm_about_2":"// These <a href=\"https://github.com/pikvm/pikvm?tab=readme-ov-file#special-thanks\">kind people</a> donated money to the PiKVM project and supported the work on it. <br>// If you also want to support this project, you can donate on <a target=\"_blank\" href=\"https://www.patreon.com/pikvm\"> Patreon</a> or <a target=\"_blank\" href=\"https://paypal.me/pikvm\"> Paypal</a>.",
     "kvm_about_3":"System",
     "kvm_about_4":"Runtime settings &amp; tools",
 
