@@ -3,6 +3,12 @@ worker_processes 4;
 # error_log /tmp/kvmd-nginx.error.log;
 error_log stderr;
 
+% if rdp_enabled:
+
+include /etc/kvmd/nginx/modules.conf;
+
+% endif
+
 include /usr/share/kvmd/extras/*/nginx.ctx-main.conf;
 
 events {
@@ -77,3 +83,19 @@ http {
 
 	% endif
 }
+
+% if rdp_enabled:
+
+stream {
+    upstream windows_hosts {
+        server ${rdp_ip}:3389;
+    }
+
+    server {
+        listen ${rdp_port};
+        proxy_pass windows_hosts;
+		proxy_connect_timeout 5s;
+    }
+}
+
+% endif

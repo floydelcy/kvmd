@@ -86,7 +86,7 @@ def build_cmd(cmd: list[str], cmd_remove: list[str], cmd_append: list[str]) -> l
 
 
 # =====
-def passwds_splitted(text: str) -> Generator[tuple[int, str]]:
+def passwds_splitted(text: str) -> Generator[tuple[int, str], None, None]:
     for (lineno, line) in enumerate(text.split("\n")):
         line = line.rstrip("\r")
         ls = line.strip()
