@@ -833,11 +833,6 @@ def _get_config_scheme() -> dict:
                 "ipv6":    Option("::",      type=functools.partial(valid_ip, v4=False)),
                 "port":    Option(443,       type=valid_port),
             },
-            "rdp": {
-                "enabled": Option(False, type=valid_bool),
-                "port":    Option(33389,  type=valid_port),
-                "ipv":     Option("172.30.30.254", type=valid_ip),
-            },
         },
 
         "janus": {

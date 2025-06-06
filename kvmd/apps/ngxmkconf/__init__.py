@@ -58,9 +58,6 @@ def main(argv: (list[str] | None)=None) -> None:
         https_ipv6=config.nginx.https.ipv6,
         https_port=config.nginx.https.port,
         ipv6_enabled=network.is_ipv6_enabled(),
-        rdp_enabled=config.nginx.rdp.enabled,
-        rdp_port=config.nginx.rdp.port,
-        rdp_ip=config.nginx.rdp.ip,
     )
 
     if options.print:

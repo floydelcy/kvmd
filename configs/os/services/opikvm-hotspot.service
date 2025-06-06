@@ -3,13 +3,9 @@ Description=OPiKVM HotSpot Service
 After=network-online.target
 Requires=network-online.target
 
-Conflicts=kvmd-otgnet.service
-
 [Service]
 ExecStartPre=/bin/systemctl stop dnsmasq.service
-ExecStartPre=/bin/systemctl stop kvmd-otgnet.service
-
-ExecStart=/usr/local/bin/opikvm-hotspot.sh
+ExecStart=/usr/local/bin/create_ap --no-virt -m nat wlan0 end1 OPiKVM-AP orangepi -g 10.0.12.1
 ExecStopPost=/bin/systemctl start dnsmasq.service
 
 Restart=always
