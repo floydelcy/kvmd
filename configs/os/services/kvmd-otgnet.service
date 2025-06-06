@@ -4,8 +4,11 @@ After=kvmd-otg.service
 Wants=network-pre.target
 After=network-pre.target
 
+Conflicts=opikvm-hotspot.service
+
 [Service]
 Type=oneshot
+ExecStartPre=/bin/systemctl stop opikvm-hotspot.service
 ExecStart=/usr/bin/kvmd-otgnet start
 ExecStop=/usr/bin/kvmd-otgnet stop
 RemainAfterExit=true
