@@ -300,6 +300,10 @@ def _cmd_start(config: Section) -> None:  # pylint: disable=too-many-statements,
     gc = _GadgetConfig(gadget_path, profile_path, config.otg.meta, config.otg.endpoints)
     cod = config.otg.devices
 
+    if cod.ethernet.enabled:
+        logger.info("===== Ethernet =====")
+        gc.add_ethernet(**cod.ethernet._unpack(ignore=["enabled"]))
+
     if config.kvmd.hid.type == "otg":
         logger.info("===== HID-Keyboard =====")
         gc.add_keyboard(cod.hid.keyboard.start, config.otg.remote_wakeup)
@@ -329,10 +333,6 @@ def _cmd_start(config: Section) -> None:  # pylint: disable=too-many-statements,
                     inquiry_string_flash=usb.make_inquiry_string(**cod.drives.default.inquiry_string.flash._unpack()),
                     **cod.drives.default._unpack(ignore="inquiry_string"),
                 )
-
-    if cod.ethernet.enabled:
-        logger.info("===== Ethernet =====")
-        gc.add_ethernet(**cod.ethernet._unpack(ignore=["enabled"]))
 
     if cod.serial.enabled:
         logger.info("===== Serial =====")
