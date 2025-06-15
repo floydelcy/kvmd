@@ -14,7 +14,7 @@
     "footer-left": "This site is actively using JavaScript.<br>It doesn't contain ads, but is blocked by some ad filters.<br>Please turn it off to continue and reload the page.",
 
     "index": " OPiKVM Index ",
-    "copyright": "Copyright &copy; 2018-2024 Maxim Devaev | Modified by SilentWind",
+    "copyright": "Copyright &copy; 2018-2025 Maxim Devaev | Modified by SilentWind",
     "index_text_1": "Please note that when you are working with a KVM session or another application that captures the keyboard,you can't use some keyboard shortcuts such as Ctrl+Alt+Del (which will be caught by your OS) or Ctrl+W (caught by your browser).",
     "index_text_2": "To override this limitation you can use Google Chrome in application mode.",
     "serve_name": "Server:",
@@ -155,5 +155,6 @@
     "Read-write mode is enabled":"Read-write mode is enabled",
     "The image is being downloaded from PiKVM":"The image is being downloaded from OPiKVM",
     "Another user uploads an image":"Another user uploads an image",
-    "page-full-tab-stream-switch":"Expand for the entire tab by default"
+    "page-full-tab-stream-switch":"Expand for the entire tab by default",
+    "stream-suspend-switch":"Suspend stream when tab is not active"
 }

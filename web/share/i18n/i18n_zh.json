@@ -155,5 +155,6 @@
     "Read-write mode is enabled":"读写模式已启用",
     "The image is being downloaded from PiKVM":"正在从 OPiKVM 下载镜像",
     "Another user uploads an image":"另一个用户正在上传镜像",
-    "page-full-tab-stream-switch":"默认进入全屏视频窗口"
+    "page-full-tab-stream-switch":"默认进入全屏视频窗口",
+    "stream-suspend-switch":"暂停不活跃标签页视频流"
 }
