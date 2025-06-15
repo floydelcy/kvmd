@@ -9,37 +9,38 @@ logging: !include logging.yaml
 kvmd:
     auth: !include auth.yaml
 
+    info:
+        hw:
+            ignore_past: true
+        fan:
+            unix: /run/kvmd/fan.sock
+
     hid:
         type: otg
 
     atx:
         type: gpio
+        device: /dev/gpiochip3
+        power_led_pin: 29
+        hdd_led_pin: 25
+        power_switch_pin: 31
+        reset_switch_pin: 28
 
     msd:
         type: otg
 
     streamer:
-        quality: 0
-        resolution:
-            default: 1920x1080
-            available:
-                - 1920x1080
-                - 1600x1200
-                - 1360x768
-                - 1280x1024
-                - 1280x960
-                - 1280x720
-                - 1024x768
-                - 800x600
-                - 720x576
-                - 720x480
-                - 640x480
+        h264_bitrate:
+            default: 5000
         cmd:
             - "/usr/bin/ustreamer"
             - "--device=/dev/kvmd-video"
             - "--persistent"
-            - "--format=mjpeg"
-            - "--resolution={resolution}"
+            - "--dv-timings"
+            - "--format=nv12"
+            - "--buffers=6"
+            - "--workers=3"
+            - "--quality={quality}"
             - "--desired-fps={desired_fps}"
             - "--drop-same-frames=30"
             - "--unix={unix}"
@@ -51,9 +52,35 @@ kvmd:
             - "--no-log-colors"
             - "--jpeg-sink=kvmd::ustreamer::jpeg"
             - "--jpeg-sink-mode=0660"
+            - "--h264-sink=kvmd::ustreamer::h264"
+            - "--h264-sink-mode=0660"
+            - "--h264-bitrate={h264_bitrate}"
+            - "--h264-gop={h264_gop}"
+            - "--v4p"
+
+    gpio:
+        drivers:
+            gpio_bank3:
+                device: /dev/gpiochip3
+                type: gpio
+
+        scheme:
+            __v3_usb_breaker__:
+                driver: gpio_bank3
+                pin: 27
+                mode: output
+                initial: true
+                inverted: true
+                pulse: false
+
+
+media:
+    memsink:
+        h264:
+            sink: "kvmd::ustreamer::h264"
 
 
 vnc:
     memsink:
-        jpeg:
-            sink: "kvmd::ustreamer::jpeg"
+        h264:
+            sink: "kvmd::ustreamer::h264"
