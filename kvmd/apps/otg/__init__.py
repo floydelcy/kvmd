@@ -300,7 +300,7 @@ def _cmd_start(config: Section) -> None:  # pylint: disable=too-many-statements,
     gc = _GadgetConfig(gadget_path, profile_path, config.otg.meta, config.otg.endpoints)
     cod = config.otg.devices
 
-    if cod.ethernet.enabled:
+    if cod.ethernet.enabled and cod.ethernet.driver in ('rndis', 'rndis5'):
         logger.info("===== Ethernet =====")
         gc.add_ethernet(**cod.ethernet._unpack(ignore=["enabled"]))
 
@@ -333,6 +333,10 @@ def _cmd_start(config: Section) -> None:  # pylint: disable=too-many-statements,
                     inquiry_string_flash=usb.make_inquiry_string(**cod.drives.default.inquiry_string.flash._unpack()),
                     **cod.drives.default._unpack(ignore="inquiry_string"),
                 )
+
+    if cod.ethernet.enabled and cod.ethernet.driver not in ('rndis', 'rndis5'):
+        logger.info("===== Ethernet =====")
+        gc.add_ethernet(**cod.ethernet._unpack(ignore=["enabled"]))
 
     if cod.serial.enabled:
         logger.info("===== Serial =====")

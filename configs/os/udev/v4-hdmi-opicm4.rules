@@ -8,3 +8,6 @@ KERNEL=="hidg2", GROUP="kvmd", SYMLINK+="kvmd-hid-mouse-alt"
 
 #dma_heap permission
 SUBSYSTEM=="dma_heap", GROUP="video", MODE="0660"
+
+#GPIOCHIP GROUP
+SUBSYSTEM=="gpio*", PROGRAM="/bin/sh -c 'chown root:gpio /dev/gpiochip* && chmod 660 /dev/gpiochip*'"
