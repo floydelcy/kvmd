@@ -59,7 +59,7 @@ class SystemInfoSubmanager(BaseInfoSubmanager):
             streamer_info,
         ) = await asyncio.gather(
             self.__read_dt_file("model", upper=False),
-            self.__read_dt_file("serial-number", upper=True),
+            self.__read_cpuinfo_serial(),
             self.__read_platform_file(),
             self.__get_streamer_info(),
         )
@@ -99,6 +99,16 @@ class SystemInfoSubmanager(BaseInfoSubmanager):
                 get_logger(0).error("Can't read DT %s from %s: %s", name, path, ex)
                 return None
         return self.__dt_cache[name]
+
+    async def __read_cpuinfo_serial(self) -> str | None:
+        try:
+            text = await aiotools.read_file(os.path.join(env.PROCFS_PREFIX, "proc/cpuinfo"))
+            for line in text.splitlines():
+                if line.lower().startswith("serial"):
+                    return line.split(":", 1)[1].strip().upper()
+        except Exception:
+            get_logger(0).exception("Can't read /proc/cpuinfo for serial")
+        return None
 
     async def __read_platform_file(self) -> dict:
         try:
