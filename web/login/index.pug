@@ -20,7 +20,7 @@ append vars
 
 
 block body
-	form(action="javascript:void(0)")
+	form(action="javascript:void(0)" autocomplete="on")
 		#login-box
 			#login
 				table
@@ -31,13 +31,13 @@ block body
 						td(colspan=2) #[hr]
 					tr
 						td(i18n="username") Username:&nbsp;
-						td #[input#user-input(type="text" autocapitalize="off")]
+						td #[input#user-input(type="text" autocapitalize="off" autocomplete="username" required)]
 					tr
 						td(i18n="password") Password:&nbsp;
-						td #[input#passwd-input(type="password" autocapitalize="off")]
+						td #[input#passwd-input(type="password" autocapitalize="off" autocomplete="current-password")]
 					tr
 						td(i18n="2fa_code") 2FA code:&nbsp;
-						td #[input#code-input(type="text" placeholder="if enabled" autocomplete="off" i18n="if_enabled")]
+						td #[input#code-input(type="text" placeholder="if enabled" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9]*" maxlength="6") i18n="if_enabled")]
 					tr
 						td(colspan=2) #[hr]
 					tr
