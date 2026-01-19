@@ -59,6 +59,8 @@ html(lang="en")
 		each name in ["vars", "main"].concat(css_list).concat(["user"])
 			link(rel="stylesheet" href=`${css_dir}/${name}.css`)
 
+		block head
+
 		script(src=`${js_dir}/i18n/jquery-3.7.1.min.js`)
 		script(src=`${js_dir}/i18n/jquery.i18n.min.js`)
 		script(src=`${js_dir}/i18n/i18n.js`)
