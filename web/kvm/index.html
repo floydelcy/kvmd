@@ -310,7 +310,7 @@
                   </td>
             </tr>
             <tr class="feature-disabled" id="stream-cam">
-                  <td>Camera:
+                  <td i18n="stream-cam-switch">Camera:
                   </td>
                   <td align="right">
                     <div class="switch-box">
@@ -672,7 +672,7 @@
           </div>
           <table class="kv">
             <tr>
-              <td colspan="100">
+              <td colspan="10">
                 <div class="radio-box" style="justify-content: right;">
                       <input type="radio" id="msd-sorting-radio-name" name="msd-sorting-radio" value="name" checked>
                       <label for="msd-sorting-radio-name">Sort by name</label>
@@ -682,21 +682,16 @@
               </td>
             </tr>
             <tr>
-              <td i18n="kvm_msd_text3">Image:</td>
-              <td width="100%">
+              <td>Image:</td>
+              <td width="100%" colspan="4">
                 <select id="msd-image-selector" disabled></select>
-              </td>
-              <td>
-                <button id="msd-download-button" disabled title="Download image"><b>&nbsp;&nbsp;&#x21E9;&nbsp;&nbsp;</b></button>
               </td>
               <td>
                 <button id="msd-remove-button" disabled title="Remove image"><b>&nbsp;&nbsp;&#10005;&nbsp;&nbsp;</b></button>
               </td>
             </tr>
-          </table>
-          <table class="kv">
             <tr>
-                  <td i18n="msd-mode-radio">Drive <a target="_blank" href="https://docs.pikvm.org/msd">mode</a>:
+                  <td i18n="msd-mode-radio"><a target="_blank" href="https://docs.pikvm.org/msd">Mode</a>:
                   </td>
                   <td>
                     <div class="radio-box">
@@ -706,7 +701,6 @@
                           <label for="msd-mode-radio-0">Flash</label>
                     </div>
                   </td>
-              <td>&nbsp;</td>
                   <td i18n="msd-rw-switch">Writable:
                   </td>
                   <td align="right">
@@ -715,15 +709,20 @@
                       <label for="msd-rw-switch"><span class="switch-inner"></span><span class="switch"></span></label>
                     </div>
                   </td>
+              <td style="width: 100%;"></td>
+              <td>
+                <button id="msd-download-button" disabled title="Download image"><b>&nbsp;&nbsp;&#x21E9;&nbsp;&nbsp;</b></button>
+              </td>
             </tr>
           </table>
           <hr>
           <div id="msd-storages"></div>
           <hr>
           <div class="buttons buttons-row">
-            <button class="row50" id="msd-select-new-button" disabled i18n="kvm_msd_text5">Select image to upload</button>
-            <button class="row25" id="msd-upload-new-button" disabled i18n="kvm_msd_text6">Upload</button>
-            <button class="row25" id="msd-abort-new-button" disabled i18n="kvm_msd_text7">Abort</button>
+            <button class="row50" id="msd-connect-button">Connect drive</button>
+            <button class="row50 hidden" id="msd-disconnect-button">Disconnect drive</button>
+            <button class="row25" id="msd-select-new-button" disabled>Upload</button>
+            <button class="row25" id="msd-reset-button">Reset</button>
           </div>
           <hr>
           <div class="hidden" id="msd-message-another-user-uploads">
@@ -731,67 +730,75 @@
                   <table>
                     <tr>
                       <td rowspan="2"><img class="sign " src="../share/svg/info.svg"></td>
-                      <td style="line-height:1.5"><b i18n="Another user uploads an image">Another user uploads an image</b></td>
+                      <td style="line-height:1.5"><b i18n="Another user uploading an image">Another user uploading an image</b></td>
                     </tr>
                   </table>
                 </div>
             <hr>
           </div>
           <div class="hidden" id="msd-new-sub">
+                <div class="text">
+                  <table>
+                    <tr>
+                      <td rowspan="2"><img class="sign " src="../share/svg/info.svg"></td>
+                      <td style="line-height:1.5"><b i18n="Specify a new image and start uploading">Specify a new image and start uploading</b></td>
+                    </tr>
+                    <tr>
+                      <td><sup style="line-height:1">
+                          Don't close the browser page until the upload is complete.<br>
+                          To speed up the process, you can close the stream window.</sup></td>
+                    </tr>
+                  </table>
+                </div>
+            <hr>
             <table class="kv">
               <tr>
-                <td i18n="kvm_msd_text8">Specify a local file:</td>
+                <td>Local file:</td>
                 <td>
                   <input id="msd-new-file" type="file">
                 </td>
               </tr>
               <tr>
-                <td i18n="kvm_msd_text9"><b>Or</b> paste a URL:</td>
+                <td><b>Or</b> remote URL:</td>
                 <td>
                   <input id="msd-new-url" type="text" style="width: 100%">
                 </td>
               </tr>
               <tr class="hidden" id="msd-new-part">
-                <td i18n="kvm_msd_text10">Upload partition:</td>
+                <td>Upload partition:</td>
                 <td width="100%">
                   <select id="msd-new-part-selector"></select>
                 </td>
               </tr>
+              <tr>
+                <td></td>
+                <td>
+                  <button id="msd-upload-new-button" disabled>Start uploading</button>
+                </td>
+              </tr>
             </table>
             <hr>
-            <div class="hidden" id="msd-uploading-sub"></div>
-            <table class="kv">
-              <tr>
-                <td i18n="kvm_msd_text14">New image:</td>
-                <td class="value" id="msd-uploading-name"></td>
-              </tr>
-              <tr>
-                <td i18n="kvm_msd_text15">Upload size:</td>
-                <td class="value" id="msd-uploading-size"></td>
-              </tr>
-            </table>
+          </div>
+          <div class="hidden" id="msd-uploading-sub">
             <div class="text">
               <div class="progress" id="msd-uploading-progress"><span class="progress-value" id="msd-uploading-progress-value"></span></div>
             </div>
-            <hr>
-          </div>
-          <div class="hidden" id="msd-new-tips">
             <table class="kv">
               <tr>
-                <td class="value" i18n="kvm_msd_text11">Note:</td>
-                <td i18n="kvm_msd_text12">&bull; Don't close the browser page until the upload is complete.</td>
+                <td>New image:</td>
+                <td class="value" id="msd-uploading-name"></td>
+              </tr>
+              <tr>
+                <td>Upload size:</td>
+                <td class="value" id="msd-uploading-size"></td>
               </tr>
               <tr>
                 <td></td>
-                <td i18n="kvm_msd_text13">&bull; To speed up the upload, close the stream window.</td>
+                <td>
+                  <button id="msd-abort-new-button" disabled>Abort uploading</button>
+                </td>
               </tr>
             </table>
-            <hr>
-          </div>
-          <div class="buttons buttons-row">
-            <button class="row50" id="msd-connect-button" i18n="kvm_msd_text16">Connect drive to Server</button>
-            <button class="row25" id="msd-disconnect-button" i18n="kvm_msd_text17">Disconnect</button>
-            <button class="row25" id="msd-reset-button" i18n="kvm_msd_text18">Reset</button>
           </div>
         </div>
       </li>
