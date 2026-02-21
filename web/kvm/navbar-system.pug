@@ -12,17 +12,17 @@ li.right#system-dropdown
 				td.value(i18n="kvm_about_4")
 					| Runtime settings &amp; tools
 				td.feature-disabled#system-tool-webterm
-					button.small(data-force-hide-menu data-show-window="webterm-window" i18n="kvm_system_1") &bull; Term
+					button.small(data-wm-menu-force-hide data-wm-window-show="webterm-window" i18n="kvm_system_1") &bull; Term
 				td#system-tool-about
-					button.small(data-force-hide-menu data-show-window="about-window" i18n="kvm_system_2") &bull; About
+					button.small(data-wm-menu-force-hide data-wm-window-show="about-window" i18n="kvm_system_2") &bull; About
 				td#system-tool-log
-					button.small#open-log-button(data-force-hide-menu i18n="kvm_system_3") &bull; Log
+					button.small#open-log-button(data-wm-menu-force-hide i18n="kvm_system_3") &bull; Log
 				td.feature-disabled#system-tool-wol
 					button(
-						data-force-hide-menu
+						data-wm-menu-force-hide
 						class="__gpio-button-__wol__ __gpio-button small"
-						data-channel="__wol__"
-						data-confirm="Are you sure to send Wake-on-LAN packet to the server?"
+						data-gpio-channel="__wol__"
+						data-gpio-confirm="Are you sure to send Wake-on-LAN packet to the server?"
 						i18n="kvm_system_4"
 					) &bull; WoL
 				td#system-tool-filebrowser
@@ -71,8 +71,8 @@ li.right#system-dropdown
 		hr
 
 		.buttons.buttons-row
-			button.row33(data-force-hide-menu data-show-window="stream-window" i18n="kvm_system_14") &bull; Show stream
-			button.row33#stream-screenshot-button(data-force-hide-menu i18n="kvm_system_15") &bull; Screenshot
+			button.row33(data-wm-menu-force-hide data-wm-window-show="stream-window" i18n="kvm_system_14") &bull; Show stream
+			button.row33#stream-screenshot-button(data-wm-menu-force-hide i18n="kvm_system_15") &bull; Screenshot
 			button.row33#stream-reset-button(i18n="kvm_system_16") Reset stream
 		hr
 
@@ -141,6 +141,6 @@ li.right#system-dropdown
 		hr
 
 		.buttons.buttons-row
-			button.row33(data-force-hide-menu data-show-window="keyboard-window" i18n="kvm_system_24") &bull; Keyboard
-			button.row33(data-force-hide-menu data-show-window="mouse-window") &bull; Mouse
+			button.row33(data-wm-menu-force-hide data-wm-window-show="keyboard-window" i18n="kvm_system_24") &bull; Keyboard
+			button.row33(data-wm-menu-force-hide data-wm-window-show="mouse-window") &bull; Mouse
 			button.row33#hid-reset-button(disabled i18n="kvm_system_25") Reset HID
