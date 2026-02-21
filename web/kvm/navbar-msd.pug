@@ -38,78 +38,71 @@ li.right.feature-disabled#msd-dropdown
 
 		table.kv
 			tr
-				td(colspan="100")
+				td(colspan="10")
 					.radio-box(style="justify-content: right;")
 						+menu_radio_items("msd-sorting-radio", [
 							{title: "Sort by name", value: "name", checked: true},
 							{title: "Newest first", value: "mtime"},
 						])
 			tr
-				td(i18n="kvm_msd_text3") Image:
-				td(width="100%") #[select#msd-image-selector(disabled)]
-				td #[button#msd-download-button(disabled title="Download image") #[b &nbsp;&nbsp;&#x21E9;&nbsp;&nbsp;]]
+				td Image:
+				td(width="100%" colspan="4") #[select#msd-image-selector(disabled)]
 				td #[button#msd-remove-button(disabled title="Remove image") #[b &nbsp;&nbsp;&#10005;&nbsp;&nbsp;]]
-
-		table.kv
 			tr
 				+menu_radio_td2("msd-mode-radio", [
 					{title: "CD/DVD", value: "1", checked: true},
 					{title: "Flash", value: "0"},
-				]) Drive #[a(target="_blank" href="https://docs.pikvm.org/msd") mode]:
-				td &nbsp;
+				]) #[a(target="_blank" href="https://docs.pikvm.org/msd") Mode]:
 				+menu_switch_td2("msd-rw-switch", false, false) Writable:
+				td(style="width: 100%;")
+				td #[button#msd-download-button(disabled title="Download image") #[b &nbsp;&nbsp;&#x21E9;&nbsp;&nbsp;]]
 		hr
 
 		#msd-storages
 		hr
 
 		.buttons.buttons-row
-			button.row50#msd-select-new-button(disabled i18n="kvm_msd_text5") Select image to upload
-			button.row25#msd-upload-new-button(disabled i18n="kvm_msd_text6") Upload
-			button.row25#msd-abort-new-button(disabled i18n="kvm_msd_text7") Abort
+			button.row50#msd-connect-button Connect drive
+			button.row50.hidden#msd-disconnect-button Disconnect drive
+			button.row25#msd-select-new-button(disabled) Upload
+			button.row25#msd-reset-button Reset
 		hr
 
 		.hidden#msd-message-another-user-uploads
-			+menu_message("info", "Another user uploads an image")
+			+menu_message("info", "Another user uploading an image")
 			hr
 
 		.hidden#msd-new-sub
+			+menu_message("info", "Specify a new image and start uploading")
+				| Don't close the browser page until the upload is complete.<br>
+				| To speed up the process, you can close the stream window.
+			hr
 			table.kv
 				tr
-					td(i18n="kvm_msd_text8") Specify a local file:
+					td Local file:
 					td #[input#msd-new-file(type="file")]
 				tr
-					td(i18n="kvm_msd_text9") #[b Or] paste a URL:
+					td #[b Or] remote URL:
 					td #[input#msd-new-url(type="text" style="width: 100%")]
 				tr.hidden#msd-new-part
-					td(i18n="kvm_msd_text10") Upload partition:
+					td Upload partition:
 					td(width="100%") #[select#msd-new-part-selector]
+				tr
+					td
+					td #[button#msd-upload-new-button(disabled) Start uploading]
 			hr
 
-			.hidden#msd-uploading-sub
-			table.kv
-				tr
-					td(i18n="kvm_msd_text14") New image:
-					td.value#msd-uploading-name
-				tr
-					td(i18n="kvm_msd_text15") Upload size:
-					td.value#msd-uploading-size
+		.hidden#msd-uploading-sub
 			.text
 				.progress#msd-uploading-progress
 					span.progress-value#msd-uploading-progress-value
-			hr
-
-		.hidden#msd-new-tips
 			table.kv
 				tr
-					td.value(i18n="kvm_msd_text11") Note:
-					td(i18n="kvm_msd_text12") &bull; Don't close the browser page until the upload is complete.
+					td New image:
+					td.value#msd-uploading-name
+				tr
+					td Upload size:
+					td.value#msd-uploading-size
 				tr
 					td
-					td(i18n="kvm_msd_text13") &bull; To speed up the upload, close the stream window.
-			hr
-
-		.buttons.buttons-row
-			button.row50#msd-connect-button(i18n="kvm_msd_text16") Connect drive to Server
-			button.row25#msd-disconnect-button(i18n="kvm_msd_text17") Disconnect
-			button.row25#msd-reset-button(i18n="kvm_msd_text18") Reset
+					td #[button#msd-abort-new-button(disabled) Abort uploading]
