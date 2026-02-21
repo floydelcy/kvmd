@@ -6,7 +6,7 @@ li.right#system-dropdown
 		+navbar_led("hid-mouse-led", "led-hid-mouse")
 		span(i18n="kvm_about_3") System
 
-	.menu#system-menu
+	.hidden.menu#system-menu
 		table.kv
 			tr
 				td.value(i18n="kvm_about_4")
@@ -141,5 +141,6 @@ li.right#system-dropdown
 		hr
 
 		.buttons.buttons-row
-			button.row50(data-force-hide-menu data-show-window="keyboard-window" i18n="kvm_system_24") &bull; Show keyboard
-			button.row50#hid-reset-button(disabled i18n="kvm_system_25") Reset HID
+			button.row33(data-force-hide-menu data-show-window="keyboard-window" i18n="kvm_system_24") &bull; Keyboard
+			button.row33(data-force-hide-menu data-show-window="mouse-window") &bull; Mouse
+			button.row33#hid-reset-button(disabled i18n="kvm_system_25") Reset HID
