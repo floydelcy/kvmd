@@ -192,7 +192,7 @@ def dump_yaml(data: Any, only_changed: bool=False, colored: bool=False) -> str:
 
 
 @contextlib.contextmanager
-def override_yaml_file(path: str, validator: Callable[[str], None]) -> Generator[Any]:
+def override_yaml_file(path: str, validator: Callable[[str], None]) -> Generator[Any, None, None]:
     handler = _YamlHandler()
     handler.Representer = _ConfigRepresenter
     with tools.atomic_file_edit(path) as tmp_path:

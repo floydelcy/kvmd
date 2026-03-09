@@ -107,7 +107,7 @@ def passwds_splitted(text: str) -> Generator[tuple[int, str], None, None]:
 
 # =====
 @contextlib.contextmanager
-def atomic_file_edit(path: str) -> Generator[str]:
+def atomic_file_edit(path: str) -> Generator[str, None, None]:
     (tmp_fd, tmp_path) = tempfile.mkstemp(
         prefix=f".{os.path.basename(path)}.",
         dir=os.path.dirname(path),

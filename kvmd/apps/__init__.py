@@ -153,7 +153,7 @@ def init(
 
 
 @contextlib.contextmanager
-def override_checked(cps: ConfigPaths) -> Generator[Any]:
+def override_checked(cps: ConfigPaths) -> Generator[Any, None, None]:
     def validator(path: str) -> None:
         _init_config(
             cps=ConfigPaths(

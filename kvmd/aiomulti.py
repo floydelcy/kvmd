@@ -140,7 +140,8 @@ class AioMpProcess:
 
 
 # =====
-class AioMpQueue[T](multiprocessing.queues.Queue[T]):
+T = TypeVar('T')
+class AioMpQueue(Generic[T], multiprocessing.queues.Queue):
     def __init__(self, maxsize: int=0) -> None:
         super().__init__(maxsize=maxsize, ctx=multiprocessing.get_context())
 

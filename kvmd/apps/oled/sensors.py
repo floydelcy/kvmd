@@ -153,8 +153,8 @@ class Sensors:  # pylint: disable=too-many-instance-attributes
                     (deg, temp) = ("F", temp * 9 / 5 + 32)
                 self.__s_temp = f"{temp:.1f}\u00b0{deg}"
 
-                self.__s_cpu = f"{event["health"]["cpu"]["percent"]}%"
-                self.__s_mem = f"{event["health"]["mem"]["percent"]}%"
+                self.__s_cpu = f'{event["health"]["cpu"]["percent"]}%'
+                self.__s_mem = f'{event["health"]["mem"]["percent"]}%'
 
             if "uptime" in event:
                 self.__s_uptime = "{days}d {hours}h {minutes}m".format(**event["uptime"]["parts"])

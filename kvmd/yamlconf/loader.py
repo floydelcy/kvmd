@@ -46,7 +46,7 @@ def load_yaml_file(path: str) -> Any:
             raise ValueError(f"Invalid YAML in the file {path!r}:\n{tools.efmt(ex)}") from None
 
 
-def listed_yaml_dir(path: str) -> Generator[str]:
+def listed_yaml_dir(path: str) -> Generator[str, None, None]:
     for name in sorted(os.listdir(path)):
         # TODO: We want to handle *.yaml or even *.yml,
         # but but previously we didn't have such filters

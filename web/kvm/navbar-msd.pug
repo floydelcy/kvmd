@@ -45,7 +45,7 @@ li.right.feature-disabled#msd-dropdown
 							{title: "Newest first", value: "mtime"},
 						])
 			tr
-				td Image:
+				td(i18n="kvm_msd_text3") Image:
 				td(width="100%" colspan="4") #[select#msd-image-selector(disabled)]
 				td #[button#msd-remove-button(disabled title="Remove image") #[b &nbsp;&nbsp;&#10005;&nbsp;&nbsp;]]
 			tr
@@ -62,10 +62,10 @@ li.right.feature-disabled#msd-dropdown
 		hr
 
 		.buttons.buttons-row
-			button.row50#msd-connect-button Connect drive
-			button.row50.hidden#msd-disconnect-button Disconnect drive
-			button.row25#msd-select-new-button(disabled) Upload
-			button.row25#msd-reset-button Reset
+			button.row50#msd-connect-button(i18n="kvm_msd_text16") Connect drive
+			button.row50.hidden#msd-disconnect-button(i18n="kvm_msd_text17") Disconnect drive
+			button.row25#msd-select-new-button(disabled i18n="kvm_msd_text6") Upload
+			button.row25#msd-reset-button(i18n="kvm_msd_text18") Reset
 		hr
 
 		.hidden#msd-message-another-user-uploads
