@@ -404,7 +404,7 @@ def _cmd_stop(config: Section) -> None:
         _unlink(join(config.otg.meta, meta))
     _rmdir(config.otg.meta)
 
-    logger.info("Bye-bye")
+    logger.info("Successfully stopped")
 
 
 # =====
