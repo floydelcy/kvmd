@@ -114,7 +114,7 @@ class NbdController:
     def get_state(self) -> NbdState:
         return self.__state
 
-    async def poll_state(self) -> AsyncGenerator[tuple[BaseNbdEvent, NbdState]]:
+    async def poll_state(self) -> AsyncGenerator[tuple[BaseNbdEvent, NbdState], None]:
         async for event in self.__poll():
             match event:
                 case NbdSetupEvent():
@@ -134,7 +134,7 @@ class NbdController:
                     self.__state = NbdState(stopped=NbdStopped(self.__state.image, event))
             yield (event, self.__state)
 
-    async def __poll(self) -> AsyncGenerator[BaseNbdEvent]:
+    async def __poll(self) -> AsyncGenerator[BaseNbdEvent, None]:
         while True:
             await self.__nr.wait()
             if self.__proc:

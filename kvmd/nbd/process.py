@@ -75,7 +75,7 @@ class NbdProcess:
         self.__proc.send_sigterm()
 
     @contextlib.asynccontextmanager
-    async def running(self) -> AsyncGenerator[None]:
+    async def running(self) -> AsyncGenerator[None, None]:
         logger = get_logger(0)
         logger.info("Starting NBD process ...")
 
@@ -108,7 +108,7 @@ class NbdProcess:
                 else:
                     logger.error("Can't stop NBD process")
 
-    async def poll(self) -> AsyncGenerator[BaseNbdEvent]:
+    async def poll(self) -> AsyncGenerator[BaseNbdEvent, None]:
         while self.__proc.is_alive():
             (got, event) = await self.__events_q.async_fetch(1)  # FIXME: Wait for process too
             if got:
@@ -186,7 +186,7 @@ class NbdProcess:
                 await aiotools.wait_infinite()
 
     @contextlib.contextmanager
-    def __catch_exceptions(self, src: str, log: str="", subtask: bool=True) -> Generator[None]:
+    def __catch_exceptions(self, src: str, log: str="", subtask: bool=True) -> Generator[None, None, None]:
         logger = (logging.getLogger(log) if log else get_logger(0))
         if subtask:
             logger.info("Starting subtask %s ...", src)

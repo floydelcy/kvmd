@@ -40,7 +40,7 @@ class NbdLink:
 
     @classmethod
     @contextlib.asynccontextmanager
-    async def opened(cls) -> AsyncGenerator["NbdLink"]:
+    async def opened(cls) -> AsyncGenerator["NbdLink", None]:
         (device_s, remote_s) = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM, 0)
 
         try:
@@ -68,7 +68,7 @@ class NbdLink:
         return self._stopped
 
     @contextlib.contextmanager
-    def shutdown_at_end(self) -> Generator[None]:
+    def shutdown_at_end(self) -> Generator[None, None, None]:
         try:
             yield
         finally:

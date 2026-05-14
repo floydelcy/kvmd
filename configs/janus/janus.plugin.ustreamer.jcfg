@@ -3,7 +3,7 @@ video: {
 }
 acap: {
 	device = "hw:0,0"
-	tc358743 = "/dev/kvmd-video"
+	tc358743 = "/dev/kvmd-subdev"
 }
 aplay: {
 	device = "plughw:UAC2Gadget,0"

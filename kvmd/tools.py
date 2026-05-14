@@ -129,7 +129,7 @@ def atomic_file_edit(path: str) -> Generator[str, None, None]:
 
 
 @contextlib.contextmanager
-def atomic_file_put(path: str, mode: int) -> Generator[str]:
+def atomic_file_put(path: str, mode: int) -> Generator[str, None, None]:
     (tmp_fd, tmp_path) = tempfile.mkstemp(
         prefix=f".{os.path.basename(path)}.",
         dir=os.path.dirname(path),

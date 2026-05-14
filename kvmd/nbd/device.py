@@ -62,7 +62,7 @@ def _ioctl(fd: int, ctl: tuple[int, str], value: (int | bytes)=0) -> None:
 
 
 @contextlib.contextmanager
-def _wrap_exceptions() -> Generator[None]:
+def _wrap_exceptions() -> Generator[None, None, None]:
     try:
         yield
     except NbdDeviceError:
@@ -88,7 +88,7 @@ class NbdDevice:
         os.close(fd)
 
     @contextlib.asynccontextmanager
-    async def open_prepared(self, link: NbdLink, image: NbdImage) -> AsyncGenerator[int]:
+    async def open_prepared(self, link: NbdLink, image: NbdImage) -> AsyncGenerator[int, None]:
         with _wrap_exceptions():
             fd = await asyncio.to_thread(os.open, self.__path, os.O_RDWR)
             try:

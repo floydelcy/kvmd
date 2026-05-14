@@ -77,7 +77,7 @@ class _State:
         self._lock = asyncio.Lock()
 
     @contextlib.contextmanager
-    def busy_unlocked(self) -> Generator[None]:
+    def busy_unlocked(self) -> Generator[None, None, None]:
         try:
             with self.__region:
                 self.__nr.notify()
