@@ -720,7 +720,7 @@
                 <select id="msd-image-selector" disabled></select>
               </td>
               <td>
-                <button id="msd-remove-button" disabled title="Remove image"><b>&nbsp;&nbsp;&#10005;&nbsp;&nbsp;</b></button>
+                <button id="msd-remove-button" disabled title="Remove image" data-i18n-title="Remove image"><b>&nbsp;&nbsp;&#10005;&nbsp;&nbsp;</b></button>
               </td>
             </tr>
             <tr>
@@ -744,7 +744,7 @@
                   </td>
               <td style="width: 100%;"></td>
               <td>
-                <button id="msd-download-button" disabled title="Download image"><b>&nbsp;&nbsp;&#x21E9;&nbsp;&nbsp;</b></button>
+                <button id="msd-download-button" disabled title="Download image" data-i18n-title="Download image"><b>&nbsp;&nbsp;&#x21E9;&nbsp;&nbsp;</b></button>
               </td>
             </tr>
           </table>
@@ -887,7 +887,7 @@
           <table class="kv">
             <tr>
               <td>
-                <button id="hid-pak-button" disabled data-wm-menu-force-hide title="Ctrl+Enter when the text is focused" i18n="kvm_text_text4">&bull; Paste</button>
+                <button id="hid-pak-button" disabled data-wm-menu-force-hide title="Ctrl+Enter when the text is focused" i18n="kvm_text_text4" data-i18n-title="kvm_text_title4">&bull; Paste</button>
               </td>
               <td i18n="kvm_text_text5">using a host keymap</td>
               <td>
@@ -1041,7 +1041,7 @@
         </div>
         <div class="hidden menu" id="switch-menu">
           <table style="border-spacing: 0px">
-            <div class="text"><b><a target="_blank" href="https://docs.pikvm.org/switch">PiKVM Switch</a> is attached<br></b><sub>Select a port or perform any available action like ATX click</sub></div>
+            <div class="text"><b><a target="_blank" href="https://docs.pikvm.org/switch">PiKVM Switch</a> is attached<br></b><sub i18n="Select a port or perform any available action like ATX click">Select a port or perform any available action like ATX click</sub></div>
           </table>
           <hr>
           <div class="hidden" id="switch-message-update">
@@ -1118,7 +1118,7 @@
                 <div class="spoiler">
                   <table class="kv">
                           <tr>
-                            <td style="white-space: nowrap">Selected port:</td>
+                            <td style="white-space: nowrap" i18n="Selected port">Selected port:</td>
                             <td>
                               <input type="color" id="switch-color-active-input">
                             </td>
@@ -1127,11 +1127,11 @@
                             </td>
                             <td>&nbsp;&nbsp;&nbsp;</td>
                             <td>
-                              <button class="small" id="switch-color-active-default-button" title="Reset default">&#8635;</button>
+                              <button class="small" id="switch-color-active-default-button" title="Reset default" data-i18n-title="Reset default">&#8635;</button>
                             </td>
                           </tr>
                           <tr>
-                            <td style="white-space: nowrap">Inactive port:</td>
+                            <td style="white-space: nowrap" i18n="Inactive port">Inactive port:</td>
                             <td>
                               <input type="color" id="switch-color-inactive-input">
                             </td>
@@ -1140,11 +1140,11 @@
                             </td>
                             <td>&nbsp;&nbsp;&nbsp;</td>
                             <td>
-                              <button class="small" id="switch-color-inactive-default-button" title="Reset default">&#8635;</button>
+                              <button class="small" id="switch-color-inactive-default-button" title="Reset default" data-i18n-title="Reset default">&#8635;</button>
                             </td>
                           </tr>
                           <tr>
-                            <td style="white-space: nowrap">Blinking beacon:</td>
+                            <td style="white-space: nowrap" i18n="Blinking beacon">Blinking beacon:</td>
                             <td>
                               <input type="color" id="switch-color-beacon-input">
                             </td>
@@ -1153,7 +1153,7 @@
                             </td>
                             <td>&nbsp;&nbsp;&nbsp;</td>
                             <td>
-                              <button class="small" id="switch-color-beacon-default-button" title="Reset default">&#8635;</button>
+                              <button class="small" id="switch-color-beacon-default-button" title="Reset default" data-i18n-title="Reset default">&#8635;</button>
                             </td>
                           </tr>
                     <tr>
@@ -1172,7 +1172,7 @@
                       </td>
                     </tr>
                           <tr>
-                            <td style="white-space: nowrap">Flashing downlink:</td>
+                            <td style="white-space: nowrap" i18n="Flashing downlink">Flashing downlink:</td>
                             <td>
                               <input type="color" id="switch-color-flashing-input">
                             </td>
@@ -1181,11 +1181,11 @@
                             </td>
                             <td>&nbsp;&nbsp;&nbsp;</td>
                             <td>
-                              <button class="small" id="switch-color-flashing-default-button" title="Reset default">&#8635;</button>
+                              <button class="small" id="switch-color-flashing-default-button" title="Reset default" data-i18n-title="Reset default">&#8635;</button>
                             </td>
                           </tr>
                           <tr>
-                            <td style="white-space: nowrap">Bootloader mode:</td>
+                            <td style="white-space: nowrap" i18n="Bootloader mode">Bootloader mode:</td>
                             <td>
                               <input type="color" id="switch-color-bootloader-input">
                             </td>
@@ -1194,7 +1194,7 @@
                             </td>
                             <td>&nbsp;&nbsp;&nbsp;</td>
                             <td>
-                              <button class="small" id="switch-color-bootloader-default-button" title="Reset default">&#8635;</button>
+                              <button class="small" id="switch-color-bootloader-default-button" title="Reset default" data-i18n-title="Reset default">&#8635;</button>
                             </td>
                           </tr>
                   </table>

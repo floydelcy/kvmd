@@ -21,6 +21,41 @@ function getCookie(name)
     return ""
 }
 
+function loadTranslationAndApply() {
+    // 获取当前语言 从 cookie 或全局变量
+    var currentLang = getCookie('userLanguage') || 'zh';
+    var jsonUrl = "/share/i18n/i18n_" + currentLang + ".json";
+
+    // 如果全局中已经有该语言的翻译数据，直接使用
+    if (window.i18nResources && window.i18nResources[currentLang]) {
+        applyTitles(window.i18nResources[currentLang]);
+        return;
+    }
+
+    // 否则加载 JSON
+    $.getJSON(jsonUrl, function(data) {
+        if (!window.i18nResources) window.i18nResources = {};
+        window.i18nResources[currentLang] = data;
+        applyTitles(data);
+    }).fail(function() {
+        console.error("Failed to load i18n file for title translation:", jsonUrl);
+    });
+}
+
+function applyTitles(translations) {
+    // 遍历所有带有 data-i18n-title 属性的元素
+    $("[data-i18n-title]").each(function() {
+        var key = $(this).data("i18n-title");
+        var translated = translations[key];
+        if (translated && translated !== "") {
+            $(this).attr("title", translated);
+        } else {
+            // 如果找不到翻译，保留原有的 title 属性 fallback
+            console.warn("Missing translation for title key:", key);
+        }
+    });
+}
+
 var i18nLanguage = "zh";
 
 $(document).ready(function() {
@@ -43,7 +78,7 @@ $(document).ready(function() {
         fileSuffix: "",
         forever: true,
         callback: function() {
-
+            loadTranslationAndApply();
         }
     });
 
@@ -52,7 +87,13 @@ $(document).ready(function() {
         console.log(selectOptionId);
         $("[i18n]").i18n({
             defaultLang: selectOptionId,
-            filePath: "/share/i18n/"
+            filePath: "/share/i18n/",
+            filePrefix: "i18n_",
+            fileSuffix: "",
+            forever: true,
+            callback: function() {
+                loadTranslationAndApply();
+            }
         });
         setCookie('userLanguage', selectOptionId)
     });
