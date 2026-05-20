@@ -182,5 +182,8 @@
     "hid-pak-delay-slider":"hid-pak-delay-slider",
     "Remove image":"Remove image",
     "Download image":"Download image",
-    "Reset default":"Reset default"
+    "Reset default":"Reset default",
+    "switch-edid-copy-data-button":"switch-edid-copy-data-button",
+    "switch-edid-add-button":"switch-edid-add-button",
+    "switch-edid-remove-button":"switch-edid-remove-button"
 }

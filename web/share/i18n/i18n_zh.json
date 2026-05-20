@@ -182,5 +182,8 @@
     "hid-pak-delay-slider":"输入延迟",
     "Remove image":"移除镜像",
     "Download image":"下载镜像",
-    "Reset default":"恢复默认"
+    "Reset default":"恢复默认",
+    "switch-edid-copy-data-button":"复制",
+    "switch-edid-add-button":"新增",
+    "switch-edid-remove-button":"移除"
 }
