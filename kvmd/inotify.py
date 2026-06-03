@@ -49,7 +49,7 @@ _FS_ENCODING:          Final[str] = (sys.getfilesystemencoding() or _FS_FALLBACK
 
 
 # =====
-def _inotify_parsed_buffer(data: bytes) -> Generator[tuple[int, int, int, bytes]]:
+def _inotify_parsed_buffer(data: bytes) -> Generator[tuple[int, int, int, bytes], None, None]:
     offset = 0
     while offset + _EVENT_HEAD_SIZE <= len(data):
         (wd, mask, cookie, length) = struct.unpack_from("iIII", data, offset)
@@ -92,23 +92,23 @@ def _fs_decode(path: bytes) -> str:
 # =====
 class InotifyMask:
     # Userspace events
-    ACCESS:        Final[int] = 0x00000001  # File was accessed  # noqa vulture-ignore
-    ATTRIB:        Final[int] = 0x00000004  # Meta-data changed  # noqa vulture-ignore
+    ACCESS:        Final[int] = 0x00000001  # File was accessed
+    ATTRIB:        Final[int] = 0x00000004  # Meta-data changed
     CLOSE_WRITE:   Final[int] = 0x00000008  # Writable file was closed
-    CLOSE_NOWRITE: Final[int] = 0x00000010  # Unwritable file closed  # noqa vulture-ignore
+    CLOSE_NOWRITE: Final[int] = 0x00000010  # Unwritable file closed
     CREATE:        Final[int] = 0x00000100  # Subfile was created
     DELETE:        Final[int] = 0x00000200  # Subfile was deleted
     DELETE_SELF:   Final[int] = 0x00000400  # Self was deleted
-    MODIFY:        Final[int] = 0x00000002  # File was modified  # noqa vulture-ignore
+    MODIFY:        Final[int] = 0x00000002  # File was modified
     MOVE_SELF:     Final[int] = 0x00000800  # Self was moved
     MOVED_FROM:    Final[int] = 0x00000040  # File was moved from X
     MOVED_TO:      Final[int] = 0x00000080  # File was moved to Y
-    OPEN:          Final[int] = 0x00000020  # File was opened  # noqa vulture-ignore
+    OPEN:          Final[int] = 0x00000020  # File was opened
 
     # Events sent by the kernel to a watch
     IGNORED:    Final[int] = 0x00008000  # File was ignored
     ISDIR:      Final[int] = 0x40000000  # Event occurred against directory
-    Q_OVERFLOW: Final[int] = 0x00004000  # Event queued overflowed  # noqa vulture-ignore
+    Q_OVERFLOW: Final[int] = 0x00004000  # Event queued overflowed
     UNMOUNT:    Final[int] = 0x00002000  # Backing file system was unmounted
 
     # Helper userspace events
@@ -202,19 +202,18 @@ class Inotify:
 
         self.__events_q: "asyncio.Queue[InotifyEvent]" = asyncio.Queue()
 
-    async def watch_all_changes(self, *paths: str) -> int:
-        return (await self.watch(InotifyMask.ALL_CHANGES_EVENTS, *paths))
+    async def watch_all_changes(self, *paths: str) -> None:
+        await self.watch(InotifyMask.ALL_CHANGES_EVENTS, *paths)
 
-    async def watch(self, mask: int, path: str) -> int:
-        path = os.path.normpath(path)
-        if path in self.__wd_by_path:
-            return self.__wd_by_path[path]
-        get_logger(2).info("Watching for %s", path)
-        # Асинхронно, чтобы не висло на NFS
-        wd = _inotify_check(await asyncio.to_thread(libc.inotify_add_watch, self.__fd, _fs_encode(path), mask))
-        self.__wd_by_path[path] = wd
-        self.__path_by_wd[wd] = path
-        return wd
+    async def watch(self, mask: int, *paths: str) -> None:
+        for path in paths:
+            path = os.path.normpath(path)
+            assert path not in self.__wd_by_path, path
+            get_logger(2).info("Watching for %s", path)
+            # Асинхронно, чтобы не висло на NFS
+            wd = _inotify_check(await asyncio.to_thread(libc.inotify_add_watch, self.__fd, _fs_encode(path), mask))
+            self.__wd_by_path[path] = wd
+            self.__path_by_wd[wd] = path
 
 #    def unwatch(self, path: str) -> None:
 #        path = os.path.normpath(path)
@@ -289,7 +288,7 @@ class Inotify:
 
             self.__events_q.put_nowait(event)
 
-    def __read_parsed_events(self) -> Generator[InotifyEvent]:
+    def __read_parsed_events(self) -> Generator[InotifyEvent, None, None]:
         for (wd, mask, cookie, name_bytes) in _inotify_parsed_buffer(self.__read_buffer()):
             wd_path = self.__path_by_wd.get(wd, None)
             if wd_path is not None:
@@ -322,10 +321,7 @@ class Inotify:
         if self.__fd >= 0:
             asyncio.get_event_loop().remove_reader(self.__fd)
             for wd in list(self.__wd_by_path.values()):
-                try:
-                    libc.inotify_rm_watch(self.__fd, wd)
-                except Exception:
-                    pass
+                libc.inotify_rm_watch(self.__fd, wd)
             try:
                 os.close(self.__fd)
             except Exception:

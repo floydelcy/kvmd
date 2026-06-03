@@ -79,19 +79,19 @@ class StateCache:  # pylint: disable=too-many-instance-attributes,too-many-publi
     def get_edids(self) -> Edids:
         return self.__edids.copy()
 
-    def get_dummies(self) -> Dummies:  # noqa vulture-ignore
+    def get_dummies(self) -> Dummies:
         return self.__dummies.copy()
 
     def get_colors(self) -> Colors:
         return self.__colors
 
-    def get_port_names(self) -> PortNames:  # noqa vulture-ignore
+    def get_port_names(self) -> PortNames:
         return self.__port_names.copy()
 
-    def get_atx_cp_delays(self) -> AtxClickPowerDelays:  # noqa vulture-ignore
+    def get_atx_cp_delays(self) -> AtxClickPowerDelays:
         return self.__atx_cp_delays.copy()
 
-    def get_atx_cpl_delays(self) -> AtxClickPowerLongDelays:  # noqa vulture-ignore
+    def get_atx_cpl_delays(self) -> AtxClickPowerLongDelays:
         return self.__atx_cpl_delays.copy()
 
     def get_atx_cr_delays(self) -> AtxClickResetDelays:
@@ -105,7 +105,7 @@ class StateCache:  # pylint: disable=too-many-instance-attributes,too-many-publi
     async def trigger_state(self) -> None:
         self.__bump_state(self.__FULL)
 
-    async def poll_state(self) -> AsyncGenerator[dict]:
+    async def poll_state(self) -> AsyncGenerator[dict, None]:
         atx_ts: float = 0
         while True:
             try:

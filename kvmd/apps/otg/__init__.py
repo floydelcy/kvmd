@@ -24,8 +24,6 @@ import os
 import re
 import shutil
 import json
-import math
-import errno
 import time
 import argparse
 
@@ -79,15 +77,14 @@ def _unlink(path: str, optional: bool=False) -> None:
     os.unlink(path)
 
 
-def _write(path: str, value: (str | bytes | int), optional: bool=False) -> None:
+def _write(path: str, value: (str | int), optional: bool=False) -> None:
     logger = get_logger()
     if optional and not os.access(path, os.F_OK):
         logger.info("WRITE --- [SKIPPED] %s", path)
         return
     logger.info("WRITE --- %s", path)
-    is_bin = isinstance(value, bytes)
-    with open(path, ("wb" if is_bin else "w")) as file:
-        file.write(value if is_bin else str(value))
+    with open(path, "w") as file:
+        file.write(str(value))
 
 
 def _write_bytes(path: str, data: bytes) -> None:
@@ -96,10 +93,18 @@ def _write_bytes(path: str, data: bytes) -> None:
         file.write(data)
 
 
+def _check_config(config: Section) -> None:
+    if (
+        not config.otg.devices.serial.enabled
+        and not config.otg.devices.ethernet.enabled
+        and config.kvmd.hid.type != "otg"
+        and config.kvmd.msd.type != "otg"
+    ):
+        raise RuntimeError("Nothing to do")
+
+
 # =====
 class _GadgetConfig:
-    # https://www.kernel.org/doc/Documentation/usb/gadget_configfs.txt
-
     def __init__(
         self,
         gadget_path: str,
@@ -118,86 +123,6 @@ class _GadgetConfig:
         self.__msd_instance = 0
 
         _mkdir(meta_path)
-
-    def add_camera(
-        self,
-        starter: list[str],
-        start: bool,
-        ct_mask: int,
-        pu_mask: int,
-    ) -> None:
-
-        """
-        Camera Terminal						Processing Unit
-        ------------------------------------------------------------------------
-        D0:  Scanning Mode					D0: Brightness
-        D1:  Auto-Exposure Mode				D1: Contrast
-        D2:  Auto-Exposure Priority			D2: Hue
-        D3:  Exposure Time (Absolute)		D3: Saturation
-        D4:  Exposure Time (Relative)		D4: Sharpness
-        D5:  Focus (Absolute)				D5: Gamma
-        D6:  Focus (Relative)				D6: White Balance Temperature
-        D7:  Iris (Absolute)				D7: White Balance Component
-        D8:  Iris (Relative)				D8: Backlight Compensation
-        D9:  Zoom (Absolute)				D9: Gain
-        D10: Zoom (Relative)				D10: Power Line Frequency
-        D11: PanTilt (Absolute)				D11: Hue, Auto
-        D12: PanTilt (Relative)				D12: White Balance Temperature, Auto
-        D13: Roll (Absolute)				D13: White Balance Component, Auto
-        D14: Roll (Relative)				D14: Digital Multiplier
-        D15:								D15: Digital Multiplier Limit
-        D16:								D16: Analog Video Standard
-        D17: Focus, Auto					D17: Analog Video Lock Status
-        D18: Privacy						D18: Contrast, Auto
-        D19: Focus, Simple
-        D20: Window
-        D21: Region of Interest
-        """
-
-        func = "uvc.usb0"
-        func_path = self.__create_function(func)
-
-        _mkdir(join(func_path, "streaming/mjpeg/m"))
-        for (width, height, framerates) in [  # TODO: Make it configurable
-            # (1920, 1080, [30]),
-            # (1280, 720,  [30]),
-            # (800,  600,  [30]),
-            (640,  480,  [30]),
-            # (640,  360,  [30]),
-            # (320,  240,  [30]),
-            # (320,  180,  [30]),
-        ]:
-            if framerates:
-                fmt_path = join(func_path, f"streaming/mjpeg/m/{height}p")
-                _mkdir(fmt_path)
-                _write(join(fmt_path, "wWidth"), width)
-                _write(join(fmt_path, "wHeight"), height)
-                _write(join(fmt_path, "dwMaxVideoFrameBufferSize"), width * height)  # Should be fine
-                _write(join(fmt_path, "dwFrameInterval"), "\n".join(
-                    str(math.floor(1 / fps * 10_000_000))  # 30 -> 333333, 100ns units
-                    for fps in framerates
-                ))
-
-        path = join(func_path, "streaming/header/h")
-        _mkdir(path)
-        _symlink(join(func_path, "streaming/mjpeg/m"), join(func_path, "streaming/header/h/m"))
-        for speed in os.listdir(join(func_path, "streaming/class")):
-            _symlink(path, join(func_path, f"streaming/class/{speed}/h"))
-
-        path = join(func_path, "control/header/h")
-        _mkdir(path)
-        for speed in os.listdir(join(func_path, "control/class")):
-            _symlink(path, join(func_path, f"control/class/{speed}/h"))
-
-        for (mask, mask_len, path) in [
-            (ct_mask, 3, "control/terminal/camera/default/bmControls"),
-            (pu_mask, 2, "control/processing/default/bmControls"),
-        ]:
-            _write(join(func_path, path), "\n".join(map(str, mask.to_bytes(mask_len, "big"))))
-
-        _write(join(func_path, "streaming_maxpacket"), 2048)  # Maximum for USB 2.0
-
-        self.__setup_function(func, "Camera", 2, starter, start)  # TODO: Check eps number
 
     def add_audio(self, starter: list[str], start: bool, speakers: bool, mic: bool) -> None:
         assert speakers or mic
@@ -342,33 +267,18 @@ class _GadgetConfig:
         }))
 
 
-def _check_config(config: Section) -> bool:
-    cod = config.otg.devices
-    return (
-        cod.camera.enabled
-        or not (cod.audio.enabled and (cod.audio.speakers.enabled or cod.audio.mic.enabled))
-        or not cod.serial.enabled
-        or not cod.ethernet.enabled
-        or config.kvmd.hid.type != "otg"
-        or config.kvmd.msd.type != "otg"
-    )
-
-
 def _cmd_start(config: Section) -> None:  # pylint: disable=too-many-statements,too-many-branches
+    # https://www.kernel.org/doc/Documentation/usb/gadget_configfs.txt
+    # https://www.isticktoit.net/?p=1383
+
     logger = get_logger()
 
-    if not _check_config(config):
-        logger.info("Nothing to do")
-        return
-
-    gadget_path = usb.get_gadget_path()
-    if os.path.exists(gadget_path):
-        logger.info("Already started/prepared, nothing to do")
-        return
+    _check_config(config)
 
     udc = usb.find_udc(config.otg.udc)
     logger.info("Using UDC %s", udc)
 
+    gadget_path = usb.get_gadget_path()
     logger.info("Creating the gadget: %s ...", gadget_path)
     _mkdir(gadget_path)
 
@@ -466,10 +376,6 @@ def _cmd_start(config: Section) -> None:  # pylint: disable=too-many-statements,
         logger.info("===== Audio =====")
         gc.add_audio(["audio"], cod.audio.start, cod.audio.speakers.enabled, cod.audio.mic.enabled)
 
-    if cod.camera.enabled:
-        logger.info("===== Camera =====")
-        gc.add_camera(["camera"], cod.camera.start, cod.camera.controls.ct_mask, cod.camera.controls.pu_mask)
-
     logger.info("===== Preparing complete =====")
 
     logger.info("Enabling the gadget ...")
@@ -482,20 +388,16 @@ def _cmd_start(config: Section) -> None:  # pylint: disable=too-many-statements,
 
 
 # =====
-def _cmd_stop(config: Section) -> None:  # pylint: disable=too-many-branches
+def _cmd_stop(config: Section) -> None:
+    # https://www.kernel.org/doc/Documentation/usb/gadget_configfs.txt
+
     logger = get_logger()
 
-    gadget_path = usb.get_gadget_path()
-    if not os.path.exists(gadget_path):
-        logger.info("Already stopped, nothing to do")
-        return
+    _check_config(config)
 
     logger.info("Disabling the gadget ...")
-    try:
-        _write(join(gadget_path, "UDC"), "\n")
-    except OSError as ex:
-        if ex.errno != errno.ENODEV:
-            raise
+    gadget_path = usb.get_gadget_path()
+    _write(join(gadget_path, "UDC"), "\n")
 
     _unlink(join(gadget_path, "os_desc", usb.G_PROFILE_NAME), optional=True)
 
@@ -509,25 +411,6 @@ def _cmd_stop(config: Section) -> None:  # pylint: disable=too-many-branches
     funcs_path = join(gadget_path, "functions")
     for func in os.listdir(funcs_path):
         if re.search(r"\.usb\d+$", func):
-            logger.info("===== %s =====", func)
-            if func.startswith("uvc."):
-                uvc_path = join(funcs_path, func)
-
-                for speed in os.listdir(join(uvc_path, "control/class")):
-                    _unlink(join(uvc_path, "control/class", speed, "h"))
-                _rmdir(join(uvc_path, "control/header/h"))
-
-                for speed in os.listdir(join(uvc_path, "streaming/class")):
-                    _unlink(join(uvc_path, "streaming/class", speed, "h"))
-                _unlink(join(uvc_path, "streaming/header/h/m"))
-                _rmdir(join(uvc_path, "streaming/header/h"))
-
-                for res in os.listdir(join(uvc_path, "streaming/mjpeg/m")):
-                    res_path = join(uvc_path, "streaming/mjpeg/m", res)
-                    if os.path.isdir(res_path):
-                        _rmdir(res_path)
-                _rmdir(join(uvc_path, "streaming/mjpeg/m"))
-
             _rmdir(join(funcs_path, func))
 
     _rmdir(join(gadget_path, "strings/0x409"))

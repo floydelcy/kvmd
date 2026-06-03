@@ -109,12 +109,12 @@ class _SpiPhy(BasePhy):  # pylint: disable=too-many-instance-attributes
         return os.path.exists(f"/dev/spidev{self.__bus}.{self.__chip}")
 
     @contextlib.contextmanager
-    def connected(self) -> Generator[_SpiPhyConnection]:  # type: ignore
+    def connected(self) -> Generator[_SpiPhyConnection, None, None]:  # type: ignore
         with self.__sw_cs_connected() as switch_cs:  # pylint: disable=contextmanager-generator-missing-cleanup
             with contextlib.closing(spidev.SpiDev(self.__bus, self.__chip)) as spi:
                 spi.mode = 0
-                spi.no_cs = (not self.__hw_cs)  # noqa vulture-ignore
-                spi.max_speed_hz = self.__max_freq  # noqa vulture-ignore
+                spi.no_cs = (not self.__hw_cs)
+                spi.max_speed_hz = self.__max_freq
 
                 def inner_xfer(data: bytes) -> bytes:
                     try:
@@ -142,7 +142,7 @@ class _SpiPhy(BasePhy):  # pylint: disable=too-many-instance-attributes
                 )
 
     @contextlib.contextmanager
-    def __sw_cs_connected(self) -> Generator[(Callable[[bool], None] | None)]:
+    def __sw_cs_connected(self) -> Generator[(Callable[[bool], None] | None), None, None]:
         if self.__sw_cs_pin > 0:
             with gpiod.request_lines(
                 self.__gpio_device_path,

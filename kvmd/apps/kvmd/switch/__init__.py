@@ -25,15 +25,10 @@ import asyncio
 
 from typing import AsyncGenerator
 
-from ....logging import get_logger
-
-from ....errors import OperationError
-
-from ....inotify import Inotify
-
-from ....clients.pst import PstClient
-
-from .... import aiotools
+from .lib import OperationError
+from .lib import get_logger
+from .lib import aiotools
+from .lib import Inotify
 
 from .types import Edid
 from .types import Edids
@@ -90,15 +85,15 @@ class Switch:  # pylint: disable=too-many-public-methods
         self,
         device_path: str,
         default_edid_path: str,
+        pst_unix_path: str,
         ignore_hpd_on_top: bool,
-        pst: PstClient,
     ) -> None:
 
         self.__default_edid_path = default_edid_path
 
         self.__chain = Chain(device_path, ignore_hpd_on_top)
         self.__cache = StateCache()
-        self.__storage = Storage(pst)
+        self.__storage = Storage(pst_unix_path)
 
         self.__lock = asyncio.Lock()
 
@@ -112,7 +107,7 @@ class Switch:  # pylint: disable=too-many-public-methods
         if save:
             self.__save_notifier.notify()
 
-    def __x_set_dummies(self, dummies: Dummies, save: bool=True) -> None:  # noqa vulture-ignore
+    def __x_set_dummies(self, dummies: Dummies, save: bool=True) -> None:
         self.__chain.set_dummies(dummies)
         self.__cache.set_dummies(dummies)
         if save:
@@ -124,22 +119,22 @@ class Switch:  # pylint: disable=too-many-public-methods
         if save:
             self.__save_notifier.notify()
 
-    def __x_set_port_names(self, port_names: PortNames, save: bool=True) -> None:  # noqa vulture-ignore
+    def __x_set_port_names(self, port_names: PortNames, save: bool=True) -> None:
         self.__cache.set_port_names(port_names)
         if save:
             self.__save_notifier.notify()
 
-    def __x_set_atx_cp_delays(self, delays: AtxClickPowerDelays, save: bool=True) -> None:  # noqa vulture-ignore
+    def __x_set_atx_cp_delays(self, delays: AtxClickPowerDelays, save: bool=True) -> None:
         self.__cache.set_atx_cp_delays(delays)
         if save:
             self.__save_notifier.notify()
 
-    def __x_set_atx_cpl_delays(self, delays: AtxClickPowerLongDelays, save: bool=True) -> None:  # noqa vulture-ignore
+    def __x_set_atx_cpl_delays(self, delays: AtxClickPowerLongDelays, save: bool=True) -> None:
         self.__cache.set_atx_cpl_delays(delays)
         if save:
             self.__save_notifier.notify()
 
-    def __x_set_atx_cr_delays(self, delays: AtxClickResetDelays, save: bool=True) -> None:  # noqa vulture-ignore
+    def __x_set_atx_cr_delays(self, delays: AtxClickResetDelays, save: bool=True) -> None:
         self.__cache.set_atx_cr_delays(delays)
         if save:
             self.__save_notifier.notify()
@@ -298,7 +293,7 @@ class Switch:  # pylint: disable=too-many-public-methods
     async def trigger_state(self) -> None:
         await self.__cache.trigger_state()
 
-    async def poll_state(self) -> AsyncGenerator[dict]:
+    async def poll_state(self) -> AsyncGenerator[dict, None]:
         async for state in self.__cache.poll_state():
             yield state
 
@@ -359,7 +354,7 @@ class Switch:  # pylint: disable=too-many-public-methods
                 else:
                     self.__x_set_edids(edids, save=False)
 
-    async def __poll_default_edid(self) -> AsyncGenerator[None]:
+    async def __poll_default_edid(self) -> AsyncGenerator[None, None]:
         logger = get_logger(0)
         while True:
             while not os.path.exists(self.__default_edid_path):

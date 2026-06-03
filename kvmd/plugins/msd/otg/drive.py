@@ -29,14 +29,9 @@ from .. import MsdOperationError
 
 
 # =====
-class MsdPermissionsError(MsdOperationError):
+class MsdDriveLockedError(MsdOperationError):
     def __init__(self) -> None:
-        super().__init__("MSD can't insert the image due to file permissions")
-
-
-class MsdLockedError(MsdOperationError):
-    def __init__(self) -> None:
-        super().__init__("MSD is locked on IO operation")
+        super().__init__("MSD drive is locked on IO operation")
 
 
 # =====
@@ -52,10 +47,7 @@ class Drive:
         return self.__name
 
     def is_enabled(self) -> bool:
-        return (
-            os.path.exists(self.__profile_func_path)
-            and os.path.exists(self.__lun_path)
-        )
+        return os.path.exists(self.__profile_func_path)
 
     def get_watchable_paths(self) -> list[str]:
         return [self.__lun_path, self.__profile_path]
@@ -64,10 +56,7 @@ class Drive:
 
     def set_image_path(self, path: str) -> None:
         if path:
-            try:
-                self.__set_param("file", path)
-            except PermissionError:
-                raise MsdPermissionsError()
+            self.__set_param("file", path)
         else:
             self.__set_param("forced_eject", "")
 
@@ -99,5 +88,5 @@ class Drive:
                 file.write(value + "\n")
         except OSError as ex:
             if ex.errno == errno.EBUSY:
-                raise MsdLockedError()
+                raise MsdDriveLockedError()
             raise

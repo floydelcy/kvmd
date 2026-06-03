@@ -87,7 +87,7 @@ _libtess = _load_libtesseract()
 
 
 @contextlib.contextmanager
-def _tess_api(data_dir_path: str, langs: list[str]) -> Generator[_TessBaseAPI]:
+def _tess_api(data_dir_path: str, langs: list[str]) -> Generator[_TessBaseAPI, None, None]:
     if not _libtess:
         raise OcrError("Tesseract is not available")
     api = _libtess.TessBaseAPICreate()
@@ -129,7 +129,7 @@ class Ocr:
     async def trigger_state(self) -> None:
         self.__notifier.notify()
 
-    async def poll_state(self) -> AsyncGenerator[dict]:
+    async def poll_state(self) -> AsyncGenerator[dict, None]:
         # ===== Granularity table =====
         #   - enabled -- Full
         #   - langs   -- Partial

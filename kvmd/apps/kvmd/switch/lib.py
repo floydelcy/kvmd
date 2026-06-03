@@ -20,54 +20,17 @@
 # ========================================================================== #
 
 
-from typing import AsyncGenerator
+# pylint: disable=unused-import
 
-from ...yamlconf import Section
+from ....logging import get_logger  # noqa: F401
 
-from ... import aiotools
-
-from . import AtxOperationError
-from . import BaseAtx
-
-
-# =====
-class AtxDisabledError(AtxOperationError):
-    def __init__(self) -> None:
-        super().__init__("ATX is disabled")
-
-
-# =====
-class Plugin(BaseAtx):
-    def __init__(self, c: Section) -> None:
-        super().__init__(c)
-        self.__notifier = aiotools.AioNotifier()
-
-    async def get_state(self) -> dict:
-        return {
-            "enabled": False,
-            "busy": False,
-            "acts": {
-                "power": False,
-                "reset": False,
-            },
-            "leds": {
-                "power": False,
-                "hdd": False,
-            },
-        }
-
-    async def trigger_state(self) -> None:
-        self.__notifier.notify()
-
-    async def poll_state(self) -> AsyncGenerator[dict, None]:
-        while True:
-            await self.__notifier.wait()
-            yield (await self.get_state())
-
-    # =====
-
-    async def __stub(self, wait: bool) -> None:
-        raise AtxDisabledError()
-
-    power_on = power_off = power_off_hard = power_reset_hard = __stub
-    click_power = click_power_long = click_reset = __stub
+from .... import tools  # noqa: F401
+from .... import aiotools  # noqa: F401
+from .... import aioproc  # noqa: F401
+from .... import aiomulti  # noqa: F401
+from .... import bitbang  # noqa: F401
+from .... import htclient  # noqa: F401
+from ....inotify import Inotify  # noqa: F401
+from ....errors import OperationError  # noqa: F401
+from ....edid import EdidNoBlockError as ParsedEdidNoBlockError  # noqa: F401
+from ....edid import Edid as ParsedEdid  # noqa: F401

@@ -49,8 +49,8 @@ async def _run_process(cmd: str, input: (str | None)=None) -> None:  # pylint: d
     assert proc.returncode == 0
 
 
-@pytest_asyncio.fixture(name="test_user")  # noqa vulture-ignore
-async def _test_user() -> AsyncGenerator[None]:
+@pytest_asyncio.fixture(name="test_user")
+async def _test_user() -> AsyncGenerator[None, None]:
     with pytest.raises(KeyError):
         pwd.getpwnam(_USER)
     await _run_process(f"useradd -u {_UID} -s /bin/bash {_USER}")

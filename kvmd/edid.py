@@ -35,7 +35,7 @@ class EdidNoBlockError(Exception):
 
 
 @contextlib.contextmanager
-def _smart_open(path: str, mode: str) -> Generator[IO]:
+def _smart_open(path: str, mode: str) -> Generator[IO, None, None]:
     fd = (0 if "r" in mode else 1)
     with (os.fdopen(fd, mode, closefd=False) if path == "-" else open(path, mode)) as file:
         yield file
@@ -219,7 +219,7 @@ class Edid:
                 speakers = True
         return (audio and speakers and self.__get_basic_audio())
 
-    def set_audio(self, enabled: bool) -> None:  # noqa vulture-ignore
+    def set_audio(self, enabled: bool) -> None:
         (cbs, dtds) = self.__parse_cea()
         cbs = [cb for cb in cbs if cb.tag not in [_CEA_AUDIO, _CEA_SPEAKERS]]
         if enabled:

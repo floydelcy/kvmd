@@ -75,7 +75,7 @@ async def _get_configured_manager(
     int_path: str,
     ext_path: str="",
     force_int_users: (list[str] | None)=None,
-) -> AsyncGenerator[AuthManager]:
+) -> AsyncGenerator[AuthManager, None]:
 
     manager = AuthManager(
         enabled=True,

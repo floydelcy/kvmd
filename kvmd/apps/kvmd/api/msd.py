@@ -107,7 +107,7 @@ class MsdApi:
                 size = reader.get_total_size()
 
             else:
-                async def compressed() -> AsyncGenerator[bytes]:
+                async def compressed() -> AsyncGenerator[bytes, None]:
                     assert make_compressor is not None
                     compressor = make_compressor()  # pylint: disable=not-callable
                     limit = reader.get_chunk_size()

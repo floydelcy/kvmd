@@ -25,7 +25,6 @@ import asyncio
 import contextlib
 import time
 
-from typing import Self
 from typing import AsyncGenerator
 
 import aiofiles
@@ -87,11 +86,6 @@ class MsdImageExistsError(MsdOperationError):
         super().__init__("This image is already exists")
 
 
-class MsdImageStaticError(MsdOperationError):
-    def __init__(self) -> None:
-        super().__init__("This image can't be removed")
-
-
 # =====
 class BaseMsdReader:
     def get_state(self) -> dict:
@@ -103,7 +97,7 @@ class BaseMsdReader:
     def get_chunk_size(self) -> int:
         raise NotImplementedError()
 
-    async def read_chunked(self) -> AsyncGenerator[bytes]:
+    async def read_chunked(self) -> AsyncGenerator[bytes, None]:
         if self is not None:  # XXX: Vulture and pylint hack
             raise NotImplementedError()
         yield
@@ -127,7 +121,7 @@ class BaseMsd(BasePlugin):
     async def trigger_state(self) -> None:
         raise NotImplementedError()
 
-    async def poll_state(self) -> AsyncGenerator[dict]:
+    async def poll_state(self) -> AsyncGenerator[dict, None]:
         # ==== Granularity table ====
         #   - enabled -- Full
         #   - online  -- Partial
@@ -165,7 +159,7 @@ class BaseMsd(BasePlugin):
         raise NotImplementedError()
 
     @contextlib.asynccontextmanager
-    async def read_image(self, name: str) -> AsyncGenerator[BaseMsdReader]:
+    async def read_image(self, name: str) -> AsyncGenerator[BaseMsdReader, None]:
         _ = name
         if self is not None:  # XXX: Vulture and pylint hack
             raise NotImplementedError()
@@ -177,7 +171,7 @@ class BaseMsd(BasePlugin):
         name: str,
         size: int,
         remove_incomplete: bool,
-    ) -> AsyncGenerator[BaseMsdWriter]:
+    ) -> AsyncGenerator[BaseMsdWriter, None]:
 
         _ = name
         _ = size
@@ -224,7 +218,7 @@ class MsdFileReader(BaseMsdReader):  # pylint: disable=too-many-instance-attribu
     def get_chunk_size(self) -> int:
         return self.__chunk_size
 
-    async def read_chunked(self) -> AsyncGenerator[bytes]:
+    async def read_chunked(self) -> AsyncGenerator[bytes, None]:
         assert self.__file is not None
         while True:
             chunk = await self.__file.read(self.__chunk_size)  # type: ignore
@@ -240,7 +234,7 @@ class MsdFileReader(BaseMsdReader):  # pylint: disable=too-many-instance-attribu
 
             yield chunk
 
-    async def open(self) -> Self:
+    async def open(self) -> "MsdFileReader":
         assert self.__file is None
         get_logger(1).info("Reading %r image from MSD ...", self.__name)
         self.__file_size = (await aiofiles.os.stat(self.__path)).st_size
@@ -308,7 +302,7 @@ class MsdFileWriter(BaseMsdWriter):  # pylint: disable=too-many-instance-attribu
 
         return self.__written
 
-    async def open(self) -> Self:
+    async def open(self) -> "MsdFileWriter":
         assert self.__file is None
         get_logger(1).info("Writing %r image (%d bytes) to MSD ...", self.__name, self.__file_size)
         await aiofiles.os.makedirs(os.path.dirname(self.__path), exist_ok=True)

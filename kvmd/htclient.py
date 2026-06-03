@@ -68,7 +68,7 @@ async def download(
     timeout: float=10.0,
     read_timeout: (float | None)=None,
     app: str="KVMD",
-) -> AsyncGenerator[aiohttp.ClientResponse]:
+) -> AsyncGenerator[aiohttp.ClientResponse, None]:
 
     async with aiohttp.ClientSession(
         headers={"User-Agent": make_user_agent(app)},

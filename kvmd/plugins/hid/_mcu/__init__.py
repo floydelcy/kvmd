@@ -98,7 +98,7 @@ class BasePhy:
         raise NotImplementedError
 
     @contextlib.contextmanager
-    def connected(self) -> Generator[BasePhyConnection]:
+    def connected(self) -> Generator[BasePhyConnection, None, None]:
         raise NotImplementedError
 
 
@@ -234,7 +234,7 @@ class BaseMcuHid(BaseHid):  # pylint: disable=too-many-instance-attributes
     async def trigger_state(self) -> None:
         self.__notifier.notify(1)
 
-    async def poll_state(self) -> AsyncGenerator[dict]:
+    async def poll_state(self) -> AsyncGenerator[dict, None]:
         prev: dict = {}
         while True:
             if (await self.__notifier.wait()) > 0:

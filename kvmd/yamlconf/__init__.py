@@ -109,7 +109,7 @@ class Section(dict):
 
 # =====
 @contextlib.contextmanager
-def manual_validated(value: Any, *path: str) -> Generator[None]:
+def manual_validated(value: Any, *path: str) -> Generator[None, None, None]:
     try:
         yield
     except (TypeError, ValueError) as ex:

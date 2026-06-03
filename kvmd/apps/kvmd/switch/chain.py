@@ -27,10 +27,9 @@ import time
 
 from typing import AsyncGenerator
 
-from ....logging import get_logger
-
-from .... import tools
-from .... import aiomulti
+from .lib import get_logger
+from .lib import tools
+from .lib import aiomulti
 
 from .types import Edids
 from .types import Dummies
@@ -277,7 +276,7 @@ class Chain:  # pylint: disable=too-many-instance-attributes
 
     # =====
 
-    async def poll_events(self) -> AsyncGenerator[BaseEvent]:
+    async def poll_events(self) -> AsyncGenerator[BaseEvent, None]:
         proc = aiomulti.AioMpProcess("switch", self.__subprocess)
         proc.start()
         try:

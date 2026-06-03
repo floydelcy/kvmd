@@ -40,7 +40,7 @@ class _UsbKey:
     code: int
     is_mod: bool
 
-    @property  # noqa vulture-ignore
+    @property
     def arduino_mod_code(self) -> int:
         # https://github.com/NicoHood/HID/blob/4bf6cd6/src/HID-APIs/DefaultKeyboardAPI.hpp#L31
         assert self.is_mod
@@ -68,13 +68,13 @@ class _X11Key:
 
 @dataclasses.dataclass(frozen=True)
 class _KeyMapping:
-    web_name: str  # noqa vulture-ignore
-    evdev_name: str  # noqa vulture-ignore
-    mcu_code: int  # noqa vulture-ignore
+    web_name: str
+    evdev_name: str
+    mcu_code: int
     usb_key: _UsbKey
-    ps2_key: (_Ps2Key | None)  # noqa vulture-ignore
+    ps2_key: (_Ps2Key | None)
     at1_code: int
-    x11_keys: set[_X11Key]  # noqa vulture-ignore
+    x11_keys: set[_X11Key]
 
 
 def _resolve_keysym(name: str) -> int:

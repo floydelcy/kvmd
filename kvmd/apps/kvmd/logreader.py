@@ -31,7 +31,7 @@ import systemd.journal
 
 # =====
 class LogReader:
-    async def poll_log(self, seek: int, follow: bool) -> AsyncGenerator[dict]:
+    async def poll_log(self, seek: int, follow: bool) -> AsyncGenerator[dict, None]:
         reader = systemd.journal.Reader()
         reader.this_boot()
         # XXX: Из-за смены ID машины в bootconfig это не работает при первой загрузке.
