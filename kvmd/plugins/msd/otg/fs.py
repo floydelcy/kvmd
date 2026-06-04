@@ -44,7 +44,7 @@ def _find_closest_mountpoint(path: str) -> str:
 
 
 # =====
-async def walk_storage(dir_path: str) -> AsyncGenerator[tuple[str, (list[str] | None)]]:
+async def walk_storage(dir_path: str) -> AsyncGenerator[tuple[str, (list[str] | None)], None]:
     tools.check_abs(dir_path)
     if not (await aiofiles.os.path.isdir(dir_path)):
         raise NotADirectoryError(dir_path)
