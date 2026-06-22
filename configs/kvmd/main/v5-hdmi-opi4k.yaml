@@ -1,0 +1,85 @@
+# Don't touch this file otherwise your device may stop working.
+# Use override.yaml to modify required settings.
+# You can find a working configuration in /usr/share/kvmd/configs.default/kvmd.
+
+kvmd:
+    info:
+        hw:
+            ignore_past: true
+        fan:
+            unix: /run/kvmd/fan.sock
+
+    hid:
+        type: otg
+
+    atx:
+        type: gpio
+        device: /dev/gpiochip3
+        power_led_pin: 29
+        hdd_led_pin: 25
+        power_switch_pin: 31
+        reset_switch_pin: 28
+
+    msd:
+        type: otg
+
+    streamer:
+        h264_bitrate:
+            default: 5000
+        cmd:
+            - "/usr/bin/ustreamer"
+            - "--device=/dev/kvmd-video"
+            - "--sub-device=/dev/kvmd-subdev"
+            - "--persistent"
+            - "--dv-timings"
+            - "--format=nv12"
+            - "--buffers=6"
+            - "--workers=3"
+            - "--quality={quality}"
+            - "--desired-fps={desired_fps}"
+            - "--drop-same-frames=30"
+            - "--unix={unix}"
+            - "--unix-rm"
+            - "--unix-mode=0660"
+            - "--exit-on-parent-death"
+            - "--process-name-prefix={process_name_prefix}"
+            - "--notify-parent"
+            - "--no-log-colors"
+            - "--jpeg-sink=kvmd::ustreamer::jpeg"
+            - "--jpeg-sink-mode=0660"
+            - "--h264-sink=kvmd::ustreamer::h264"
+            - "--h264-sink-mode=0660"
+            - "--h264-bitrate={h264_bitrate}"
+            - "--h264-gop={h264_gop}"
+
+    gpio:
+        drivers:
+            gpio_bank3:
+                device: /dev/gpiochip3
+                type: gpio
+
+        scheme:
+            __v3_usb_breaker__:
+                driver: gpio_bank3
+                pin: 27
+                mode: output
+                initial: true
+                inverted: true
+                pulse: false
+
+
+media:
+    memsink:
+        h264:
+            sink: "kvmd::ustreamer::h264"
+
+
+vnc:
+    memsink:
+        h264:
+            sink: "kvmd::ustreamer::h264"
+
+
+oled:
+    height: 64
+    rotate: 2

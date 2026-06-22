@@ -18,7 +18,7 @@ ExecStart=/usr/bin/ttyd \
 		--interface=/run/kvmd/ttyd.sock \
 		--port=0 \
 		$KVMD_WEBTERM_ARGS \
-	/bin/bash -c 'echo -ne "\033]0;OPiKVM Terminal: `hostname -f` (ttyd)\007"; bash /usr/bin/armbian-motd; export TERM=linux; umask 0022; bash'
+	/bin/bash -c 'echo -ne "\033]0;OPiKVM Terminal: `hostname -f` (ttyd)\007"; bash /usr/local/bin/ttyd-motd; export TERM=linux; umask 0022; bash'
 
 [Install]
 WantedBy=multi-user.target
