@@ -21,6 +21,8 @@
 
 
 import os
+if not hasattr(os, 'PIDFD_NONBLOCK'):
+    os.PIDFD_NONBLOCK = 2048
 import signal
 import asyncio
 import multiprocessing
