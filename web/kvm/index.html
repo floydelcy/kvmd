@@ -79,7 +79,7 @@
                       <td style="line-height:1.5"><b i18n="Raspberry Pi's health is at risk">Raspberry Pi's health is at risk</b></td>
                     </tr>
                     <tr>
-                      <td><sup style="line-height:1">This is not a drill! A red icon indicates a current issue,<br>
+                      <td><sup style="line-height:1" i18n="Raspberry Pi's health is at risk_msg">This is not a drill! A red icon indicates a current issue,<br>
                           a yellow one that was observed since the device booted up</sup></td>
                     </tr>
                   </table>
@@ -93,7 +93,7 @@
                         <td style="line-height:1.5"><b i18n="Undervoltage detected">Undervoltage detected</b></td>
                       </tr>
                       <tr>
-                        <td><sup style="line-height:1">Make sure your power supply and cabling are providing<br>
+                        <td><sup style="line-height:1" i18n="Undervoltage detected_msg">Make sure your power supply and cabling are providing<br>
                             enough power to the Raspberry Pi (3A minimum)</sup></td>
                       </tr>
                     </table>
@@ -108,7 +108,7 @@
                         <td style="line-height:1.5"><b i18n="Overheating detected">Overheating detected</b></td>
                       </tr>
                       <tr>
-                        <td><sup style="line-height:1">Frequency capping due to overheating,<br>
+                        <td><sup style="line-height:1" i18n="Overheating detected_msg">Frequency capping due to overheating,<br>
                             please improve cooling of the Raspberry Pi</sup></td>
                       </tr>
                     </table>
@@ -129,7 +129,7 @@
                       <td style="line-height:1.5"><b i18n="Raspberry Pi's health is at risk">Raspberry Pi's health is at risk</b></td>
                     </tr>
                     <tr>
-                      <td><sup style="line-height:1">This is not a drill! A red icon indicates a current issue,<br>
+                      <td><sup style="line-height:1" i18n="Raspberry Pi's health is at risk_msg">This is not a drill! A red icon indicates a current issue,<br>
                           a yellow one that was observed in the past</sup></td>
                     </tr>
                   </table>
@@ -143,7 +143,7 @@
                         <td style="line-height:1.5"><b i18n="Fan failed">Fan failed</b></td>
                       </tr>
                       <tr>
-                        <td><sup style="line-height:1">A fan error occured, please <a href="../api/log?seek=3600&amp;follow=1" target="_blank">check the log</a></sup></td>
+                        <td><sup style="line-height:1" i18n="Fan failed_msg">A fan error occured, please <a href="../api/log?seek=3600&amp;follow=1" target="_blank">check the log</a></sup></td>
                       </tr>
                     </table>
                   </div>
@@ -639,7 +639,7 @@
                       <td style="line-height:1.5"><b i18n="Current image is broken!">Current image is broken!</b></td>
                     </tr>
                     <tr>
-                      <td><sup style="line-height:1">Perhaps uploading was interrupted</sup></td>
+                      <td><sup style="line-height:1" i18n="Current image is broken!_msg">Perhaps uploading was interrupted</sup></td>
                     </tr>
                   </table>
                 </div>
@@ -653,7 +653,7 @@
                       <td style="line-height:1.5"><b i18n="Current image is too big for DVD!">Current image is too big for DVD!</b></td>
                     </tr>
                     <tr>
-                      <td><sup style="line-height:1">The maximum is 31.6GiB. Please switch to the Flash mode.</sup></td>
+                      <td><sup style="line-height:1" i18n="Current image is too big for DVD!_msg">The maximum is 31.6GiB. Please switch to the Flash mode.</sup></td>
                     </tr>
                   </table>
                 </div>
@@ -667,7 +667,7 @@
                       <td style="line-height:1.5"><b i18n="Current image is out of storage">Current image is out of storage</b></td>
                     </tr>
                     <tr>
-                      <td><sup style="line-height:1">This image was connected manually using <b>kvmd-otgmsd</b></sup></td>
+                      <td><sup style="line-height:1" i18n="Current image is out of storage_msg">This image was connected manually using <b>kvmd-otgmsd</b></sup></td>
                     </tr>
                   </table>
                 </div>
@@ -681,7 +681,7 @@
                       <td style="line-height:1.5"><b i18n="Read-write mode is enabled">Read-write mode is enabled</b></td>
                     </tr>
                     <tr>
-                      <td><sup style="line-height:1">Do not turn off PiKVM while this is active to prevent<br>
+                      <td><sup style="line-height:1" i18n="Read-write mode is enabled_msg">Do not turn off PiKVM while this is active to prevent<br>
                           filesystem corruption. Use read-only mode where possible,<br>
                           as writing to SD card often can reduce its lifespan.</sup></td>
                     </tr>
@@ -697,7 +697,7 @@
                       <td style="line-height:1.5"><b i18n="The image is being downloaded from PiKVM">The image is being downloaded from PiKVM</b></td>
                     </tr>
                     <tr>
-                      <td><sup style="line-height:1">Please wait</sup></td>
+                      <td><sup style="line-height:1" i18n="The image is being downloaded from PiKVM_msg">Please wait</sup></td>
                     </tr>
                   </table>
                 </div>
@@ -775,7 +775,7 @@
                       <td style="line-height:1.5"><b i18n="Specify a new image and start uploading">Specify a new image and start uploading</b></td>
                     </tr>
                     <tr>
-                      <td><sup style="line-height:1">
+                      <td><sup style="line-height:1" i18n="Specify a new image and start uploading_msg">
                           Don't close the browser page until the upload is complete.<br>
                           To speed up the process, you can close the stream window.</sup></td>
                     </tr>
@@ -784,19 +784,19 @@
             <hr>
             <table class="kv">
               <tr>
-                <td>Local file:</td>
+                <td i18n="kvm_msd_text8">Local file:</td>
                 <td>
                   <input id="msd-new-file" type="file">
                 </td>
               </tr>
               <tr>
-                <td><b>Or</b> remote URL:</td>
+                <td i18n="kvm_msd_text9"><b>Or</b> remote URL:</td>
                 <td>
                   <input id="msd-new-url" type="text" style="width: 100%">
                 </td>
               </tr>
               <tr class="hidden" id="msd-new-part">
-                <td>Upload partition:</td>
+                <td i18n="kvm_msd_text10">Upload partition:</td>
                 <td width="100%">
                   <select id="msd-new-part-selector"></select>
                 </td>
@@ -804,7 +804,7 @@
               <tr>
                 <td></td>
                 <td>
-                  <button id="msd-upload-new-button" disabled>Start uploading</button>
+                  <button id="msd-upload-new-button" disabled i18n="kvm_msd_upload">Start uploading</button>
                 </td>
               </tr>
             </table>
@@ -816,17 +816,17 @@
             </div>
             <table class="kv">
               <tr>
-                <td>New image:</td>
+                <td i18n="kvm_msd_text14">New image:</td>
                 <td class="value" id="msd-uploading-name"></td>
               </tr>
               <tr>
-                <td>Upload size:</td>
+                <td i18n="kvm_msd_text15">Upload size:</td>
                 <td class="value" id="msd-uploading-size"></td>
               </tr>
               <tr>
                 <td></td>
                 <td>
-                  <button id="msd-abort-new-button" disabled>Abort uploading</button>
+                  <button id="msd-abort-new-button" disabled i18n="kvm_msd_abort">Abort uploading</button>
                 </td>
               </tr>
             </table>
@@ -1052,7 +1052,7 @@
                       <td style="line-height:1.5"><b i18n="Good news! Your switch is ready to get the firmware update">Good news! Your switch is ready to get the firmware update</b></td>
                     </tr>
                     <tr>
-                      <td><sup style="line-height:1">Please <a target="_blank" href="https://docs.pikvm.org/switch/#firmware-updating">follow the instructions</a>
+                      <td><sup style="line-height:1" i18n="Good news! Your switch is ready to get the firmware update_msg">Please <a target="_blank" href="https://docs.pikvm.org/switch/#firmware-updating">follow the instructions</a>
                           when you decide to install it.</sup></td>
                     </tr>
                   </table>

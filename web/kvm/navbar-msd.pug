@@ -77,17 +77,17 @@ li.right.feature-disabled#msd-dropdown
 			hr
 			table.kv
 				tr
-					td Local file:
+					td(i18n="kvm_msd_text8") Local file:
 					td #[input#msd-new-file(type="file")]
 				tr
-					td #[b Or] remote URL:
+					td(i18n="kvm_msd_text9") #[b Or] remote URL:
 					td #[input#msd-new-url(type="text" style="width: 100%")]
 				tr.hidden#msd-new-part
-					td Upload partition:
+					td(i18n="kvm_msd_text10") Upload partition:
 					td(width="100%") #[select#msd-new-part-selector]
 				tr
 					td
-					td #[button#msd-upload-new-button(disabled) Start uploading]
+					td #[button#msd-upload-new-button(disabled i18n="kvm_msd_upload") Start uploading]
 			hr
 
 		.hidden#msd-uploading-sub
@@ -96,11 +96,11 @@ li.right.feature-disabled#msd-dropdown
 					span.progress-value#msd-uploading-progress-value
 			table.kv
 				tr
-					td New image:
+					td(i18n="kvm_msd_text14") New image:
 					td.value#msd-uploading-name
 				tr
-					td Upload size:
+					td(i18n="kvm_msd_text15") Upload size:
 					td.value#msd-uploading-size
 				tr
 					td
-					td #[button#msd-abort-new-button(disabled) Abort uploading]
+					td #[button#msd-abort-new-button(disabled i18n="kvm_msd_abort") Abort uploading]
