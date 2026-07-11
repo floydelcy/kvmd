@@ -25,6 +25,7 @@ import asyncio
 import contextlib
 import time
 
+from typing import Self
 from typing import AsyncGenerator
 
 import aiofiles
