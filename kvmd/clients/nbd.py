@@ -92,7 +92,7 @@ class NbdClient:
             async with session.post("/unbind") as resp:
                 htclient.raise_not_200(resp)
 
-    async def poll_state(self) -> AsyncGenerator[NbdState]:
+    async def poll_state(self) -> AsyncGenerator[NbdState, None]:
         async with self.__make_session() as session:
             async with session.ws_connect("/ws") as ws:
                 async for msg in ws:

@@ -36,7 +36,7 @@ from ... import htclient
 class DownloadingFile:
     name: str
     size: int
-    read: Callable[[int], AsyncGenerator[bytes]]
+    read: Callable[[int], AsyncGenerator[bytes, None]]
 
 
 @contextlib.asynccontextmanager
@@ -46,7 +46,7 @@ async def download(
     timeout: float,
     read_timeout: float,
     user_agent: str="",
-) -> AsyncGenerator[DownloadingFile]:
+) -> AsyncGenerator[DownloadingFile, None]:
 
     async with aiohttp.ClientSession(
         headers={aiohttp.hdrs.USER_AGENT: htclient.make_user_agent(user_agent)},
@@ -67,7 +67,7 @@ async def download(
                 raise aiohttp.ClientError("No Content-Length found")
 
             # Make it unified for the future API
-            async def read(chunk_size: int) -> AsyncGenerator[bytes]:
+            async def read(chunk_size: int) -> AsyncGenerator[bytes, None]:
                 async for chunk in resp.content.iter_chunked(chunk_size):
                     yield chunk
 
