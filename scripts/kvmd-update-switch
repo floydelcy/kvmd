@@ -36,7 +36,7 @@ if [[ "$1" != --do-the-thing ]]; then
 fi
 
 curl \
-		--unix-socket=/run/kvmd/kvmd.sock \
+		--unix-socket /run/kvmd/kvmd.sock \
 		--silent \
 		-X POST \
 	'http://localhost/switch/reset?unit=0&bootloader=1'
