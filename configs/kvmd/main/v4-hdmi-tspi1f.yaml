@@ -12,11 +12,11 @@ kvmd:
 
     atx:
         type: gpio
-        device: /dev/gpiochip5
-        power_led_pin: 3
-        hdd_led_pin: 7
-        power_switch_pin: 28
-        reset_switch_pin: 29
+        device: /dev/gpiochip1
+        power_led_pin: 10
+        hdd_led_pin: 9
+        power_switch_pin: 4
+        reset_switch_pin: 8
 
     msd:
         type: otg
@@ -52,14 +52,14 @@ kvmd:
 
     gpio:
         drivers:
-            gpio_bank5:
-                device: /dev/gpiochip5
+            gpio_bank3:
+                device: /dev/gpiochip3
                 type: gpio
 
         scheme:
             __v3_usb_breaker__:
-                driver: gpio_bank5
-                pin: 19
+                driver: gpio_bank3
+                pin: 6
                 mode: output
                 initial: true
                 inverted: true
